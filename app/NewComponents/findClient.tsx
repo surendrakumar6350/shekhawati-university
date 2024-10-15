@@ -1,0 +1,340 @@
+"use client";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Image as ImageIcon,
+  Download,
+} from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { getStudents, getuser } from "@/apiCalls/allApiCalls";
+import { setUserdetails } from "../redux/allSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Header from "../NewComponents/Header";
+import { changeSearch } from "../redux/search";
+import Popup from "../NewComponents/Popup";
+import handleSearch from "@/utils/handleSearch";
+import refreshByPagination from "@/utils/refreshByPagination";
+import { User } from "lucide-react";
+import calculateTheValueOfPage from "@/utils/calculateTheValueOfPage";
+import areAllQueryParamsNull from "@/utils/isParams";
+
+
+export default function SearchPage() {
+const queryParams = useSearchParams();
+  const dispatch = useDispatch();
+
+  //@ts-ignore
+  const user = useSelector((data) => data?.userSlice?.data);
+  //@ts-ignore
+  const updateuser = useSelector((data) => data?.Slice?.data);
+  //@ts-ignore
+  const Searchresult = useSelector((data) => data?.Search?.data);
+
+  const nameValue = queryParams.get("name");
+  const fatherNameValue = queryParams.get("fatherName");
+  const courseValue = queryParams.get("course");
+  const mobile = queryParams.get("mobile");
+  const address = queryParams.get("address");
+  const page = calculateTheValueOfPage(queryParams);
+
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const [searchParams, setSearchParams] = useState({
+    name: nameValue ? nameValue : "",
+    fatherName: fatherNameValue ? fatherNameValue : "",
+    mobile: mobile ? mobile : "",
+    address: address ? address : "",
+    course: courseValue ? courseValue : "",
+    page: page,
+  });
+
+
+
+  const paginate = (pageNumber: any) => {
+    setSearchParams((prev) => ({ ...prev, page: pageNumber }));
+    refreshByPagination(searchParams, pageNumber);
+  };
+
+  useEffect(() => {
+    (async () => {
+      //Check if User is logged In or Not
+      const res = await getuser();
+      if (res?.success) {
+        dispatch(setUserdetails(res));
+      } else {
+        dispatch(setUserdetails({ ...user, picture: null }));
+      }
+      //Finding Search Result's
+      const searchResponse = await getStudents(
+        {
+          name: nameValue,
+          fatherName: fatherNameValue,
+          course: courseValue,
+          mobile: mobile,
+          address: address,
+        },
+        page
+      );
+      if (searchResponse?.success) {
+        dispatch(changeSearch(searchResponse.user));
+      }
+      if (!searchResponse?.success) {
+        if (searchResponse.message == "Rate limit exceeded") {
+          toast(
+            "Rate limit exceeded! You've reached your daily limit. Try again tomorrow!"
+          );
+        }
+      }
+    })();
+  }, [updateuser]);
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setSearchParams((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCourseChange = (value: any) => {
+    setSearchParams((prev) => ({ ...prev, course: value }));
+  };
+
+  const handleProfileSelect = (profile: any) => {
+    setSelectedProfile(profile);
+  };
+
+  const handleCloseProfile = () => {
+    setSelectedProfile(null);
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gradient-to-b from-purple-100 via-pink-100 to-blue-100">
+      <Header picture={user.picture} />
+
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg p-8 mb-8">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+            Hi there, Student
+          </h1>
+          <p className="text-2xl font-semibold mb-6 text-purple-800">
+            What would you like to know?
+          </p>
+
+          <form
+            onSubmit={(e) => handleSearch(searchParams, e)}
+            className="space-y-4"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={searchParams.name}
+                onChange={handleInputChange}
+                className="w-full py-2 px-3 text-gray-700 bg-white bg-opacity-50 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              />
+              <Input
+                type="text"
+                name="fatherName"
+                placeholder="Father Name"
+                value={searchParams.fatherName}
+                onChange={handleInputChange}
+                className="w-full py-2 px-3 text-gray-700 bg-white bg-opacity-50 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              />
+              <Input
+                type="text"
+                name="mobile"
+                placeholder="Mobile"
+                value={searchParams.mobile}
+                onChange={handleInputChange}
+                className="w-full py-2 px-3 text-gray-700 bg-white bg-opacity-50 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Input
+                type="text"
+                name="address"
+                placeholder="Address"
+                value={searchParams.address}
+                onChange={handleInputChange}
+                className="w-full py-2 px-3 text-gray-700 bg-white bg-opacity-50 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 md:col-span-2"
+              />
+              <Select
+                defaultValue={searchParams.course}
+                onValueChange={handleCourseChange}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a course" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="B.A LL.B">B.A LL.B</SelectItem>
+                  <SelectItem value="B.A. ADDITIONAL">
+                    B.A. ADDITIONAL
+                  </SelectItem>
+                  <SelectItem value="B.A. B.ED">B.A. B.ED</SelectItem>
+                  <SelectItem value="B.A.">B.A.</SelectItem>
+                  <SelectItem value="B.B.A.">B.B.A.</SelectItem>
+                  <SelectItem value="B.C.A.">B.C.A.</SelectItem>
+                  <SelectItem value="B.COM">B.COM</SelectItem>
+                  <SelectItem value="B.ED">B.ED</SelectItem>
+                  <SelectItem value="B.P.ED">B.P.ED</SelectItem>
+                  <SelectItem value="B.SC">B.SC</SelectItem>
+                  <SelectItem value="LL.M">LL.M</SelectItem>
+                  <SelectItem value="M.A.">M.A.</SelectItem>
+                  <SelectItem value="M.A./M.SC.">M.A./M.SC.</SelectItem>
+                  <SelectItem value="M.COM.">M.COM.</SelectItem>
+                  <SelectItem value="M.Com">M.Com</SelectItem>
+                  <SelectItem value="M.ED">M.ED</SelectItem>
+                  <SelectItem value="M.SC">M.SC</SelectItem>
+                  <SelectItem value="P.G.">P.G.</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-indigo-600 to-pink-500 text-white py-2 px-4 rounded-md hover:from-indigo-700 hover:to-pink-600 transition-colors"
+            >
+              Search
+            </Button>
+          </form>
+        </div>
+
+        {!areAllQueryParamsNull(queryParams) && Searchresult?.length < 2 && (
+          <div className="w-[100%] m-auto flex justify-center items-center">
+            {" "}
+            <img
+              src="/loading.gif"
+              className="my-20 justify-center w-20 h-20 rounded"
+            />{" "}
+          </div>
+        )}
+        {Searchresult.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-purple-800 mb-6">
+              Search Results
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+              {Searchresult.map((profile: any) => (
+                <Card
+                  key={profile?._id}
+                  className="bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                >
+                  <div className="relative">
+                    <Image
+                      src={
+                        profile.imgSrc == "/placeholder.svg"
+                          ? "/placeholder.svg"
+                          : `https://exam.shekhauniexam.in/${profile.imgSrc}`
+                      }
+                      alt={profile.studentName}
+                      width={300}
+                      height={300}
+                      className="w-full h-auto object-cover aspect-square"
+                    />
+                  </div>
+                  <CardContent className="p-4">
+
+                    <p className="inline-flex items-center px-3 py-1 text-xs font-medium text-gray-700 bg-gray-100 rounded-full shadow-sm mb-2 max-w-full break-words">
+                      <User
+                        className="w-3 h-3 mr-1 flex-shrink-0 text-gray-500"
+                        aria-hidden="true"
+                      />
+                      <span>{profile.studentName.toLowerCase().split(' ').map((word: any) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</span>
+                    </p>
+                    <Button
+                      onClick={() => handleProfileSelect(profile)}
+                      className="w-full bg-gradient-to-r from-indigo-600 to-pink-500 text-white"
+                    >
+                      View Details
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <div className="flex justify-center mt-8 space-x-2">
+              <Button
+                //@ts-ignore
+                onClick={() => paginate(Number(searchParams.page) - 1)}
+                disabled={Number(searchParams.page) === 1}
+                variant="outline"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              {Array.from({ length: 5 }).map((_, index) => (
+                <Button
+                  key={index}
+                  onClick={() => paginate(index + 1)}
+                  variant={
+                    Number(searchParams.page) === index + 1
+                      ? "default"
+                      : "outline"
+                  }
+                  className={
+                    Number(searchParams.page) === index + 1
+                      ? "bg-gradient-to-r from-indigo-600 to-pink-500 text-white"
+                      : ""
+                  }
+                >
+                  {index + 1}
+                </Button>
+              ))}
+              <Button
+                //@ts-ignore
+                onClick={() => paginate(Number(searchParams.page) + 1)}
+                disabled={Number(searchParams.page) === 5}
+                variant="outline"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
+        <Popup
+          selectedProfile={selectedProfile}
+          handleCloseProfile={handleCloseProfile}
+        />
+      </main>
+
+      <footer className="py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-purple-200 bg-white bg-opacity-80 backdrop-blur-md">
+        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+          <p className="text-xs text-gray-600">
+            © 2024 GenZHub. All rights reserved.
+          </p>
+          <nav className="flex gap-4 sm:gap-6 mt-4 sm:mt-0">
+            <Link
+              className="text-xs hover:underline underline-offset-4 text-purple-800"
+              href="#"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              className="text-xs hover:underline underline-offset-4 text-purple-800"
+              href="#"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              className="text-xs hover:underline underline-offset-4 text-purple-800"
+              href="#"
+            >
+              Contact Us
+            </Link>
+          </nav>
+        </div>
+      </footer>
+    </div>
+  );
+}
