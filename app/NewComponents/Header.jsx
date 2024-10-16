@@ -44,7 +44,7 @@ const Header = (props) => {
                             <GraduationCap className="h-10 w-10 text-indigo-600 group-hover:text-pink-500 transition-colors" />
                         </motion.div>
                         <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
-                            GenZHub
+                            Shekhawati
                         </span>
                     </Link>
                     <div className="flex items-center">

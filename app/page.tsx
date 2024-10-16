@@ -19,6 +19,7 @@ import LoadingBar from "react-top-loading-bar";
 import {setUserdetails} from "./redux/allSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './NewComponents/Footer'
 
 
 export default function HomePage() {
@@ -111,7 +112,7 @@ export default function HomePage() {
       />
       <Header picture={user.picture} />
       <main className="flex-1">
-        <section className="w-full py-6 md:py-8 lg:py-10 xl:py-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <section className="w-full flex justify-center py-6 md:py-8 lg:py-10 xl:py-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
@@ -225,7 +226,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="w-full py-6 md:py-10 lg:py-10 bg-gradient-to-b from-blue-100 to-purple-100">
+        <section className="w-full flex justify-center py-6 md:py-10 lg:py-10 bg-gradient-to-b from-blue-100 to-purple-100">
           <div className="container px-4 md:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -275,7 +276,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="w-full py-6 md:py-10 lg:py-10 bg-gradient-to-b from-purple-100 to-pink-100">
+        <section className="w-full flex justify-center py-6 md:py-10 lg:py-10 bg-gradient-to-b from-purple-100 to-pink-100">
           <div className="container px-4 md:px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -330,22 +331,7 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <footer className="py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-purple-200 bg-white bg-opacity-80 backdrop-blur-md">
-        <div className="container flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-xs text-gray-600">© 2024 GenZHub. All rights reserved.</p>
-          <nav className="flex gap-4 sm:gap-6 mt-4 sm:mt-0">
-            <Link className="text-xs hover:underline underline-offset-4 text-purple-800" href="#">
-              Terms of Service
-            </Link>
-            <Link className="text-xs hover:underline underline-offset-4 text-purple-800" href="#">
-              Privacy Policy
-            </Link>
-            <Link className="text-xs hover:underline underline-offset-4 text-purple-800" href="#">
-              Contact Us
-            </Link>
-          </nav>
-        </div>
-      </footer>
+<Footer />
       <ToastContainer />
     </div>
   )
