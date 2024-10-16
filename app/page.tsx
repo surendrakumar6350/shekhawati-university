@@ -41,7 +41,7 @@ export default function HomePage() {
       setProgress(10);
       const res = await getuser();
       setProgress(70);
-      if (res.success) {
+      if (res?.success) {
         dispatch(setUserdetails(res));
       } else {
         dispatch(setUserdetails({ ...user, picture: null }));
