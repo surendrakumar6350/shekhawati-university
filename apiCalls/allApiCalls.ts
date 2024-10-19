@@ -107,3 +107,27 @@ export const logOut = async () => {
     return null;
   }
 };
+
+export const heroImages = async () => {
+  try {
+    const response = await axios.post(`/api/HeroImg`);
+    const responseData = response.data;
+    return responseData;
+  } catch (error) {
+    toast("Request Failed!! ⚠️⚠️");
+    console.error(error);
+    return null;
+  }
+};
+
+export const recentSearches = async () => {
+  try {
+    const response = await axios.post(`/api/recentlySearchedProfiles`);
+    const responseData = response.data;
+    return responseData;
+  } catch (error) {
+    toast("Request Failed!! ⚠️⚠️");
+    console.error(error);
+    return null;
+  }
+};
