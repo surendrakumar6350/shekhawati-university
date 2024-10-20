@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from 'react'
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
@@ -9,8 +8,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import Header from "../NewComponents/Header.jsx"
-import { CalendarIcon, MapPinIcon, BookOpenIcon, MapPin, Search, Users, ChevronRight, BookOpen, Coffee, MessageCircle, GraduationCap, Briefcase, Star, Zap, Globe, Lightbulb, Menu } from "lucide-react"
+import { CalendarIcon, MapPinIcon, BookOpenIcon, MailIcon } from "lucide-react"
+import { Users, ChevronRight, BookOpen, Coffee, Briefcase, Star, Zap, Globe, Lightbulb } from "lucide-react"
 import convertDate from '../../utils/convertDate'
+import maskEmail from "../../utils/maskEmail"
 import { useDispatch, useSelector } from "react-redux";
 import { getuser } from "@/apiCalls/allApiCalls";
 import LoadingBar from "react-top-loading-bar";
@@ -18,11 +19,12 @@ import { setUserdetails } from "../redux/allSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../NewComponents/Footer'
+import formatAddress from '../../utils/formatAddress'
+import { fadeInUp, stagger, hoverScale } from '../../utils/snippets'
 
 
 export default function HomePage(props: any) {
-  let { recentProfiles } = props;
-  console.log(recentProfiles)
+  let { recentProfiles, topProfiles, imageUrls } = props;
 
   const [searchQuery, setSearchQuery] = useState('')
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -35,49 +37,15 @@ export default function HomePage(props: any) {
 
   useEffect(() => {
     (async () => {
-      setProgress(10);
       const res = await getuser();
-      setProgress(70);
       if (res?.success) {
         dispatch(setUserdetails(res));
       } else {
         dispatch(setUserdetails({ ...user, picture: null }));
       }
-      setProgress(100);
     })();
   }, [updateuser]);
 
-
-  const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5 }
-  }
-
-  const stagger = {
-    animate: {
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  }
-
-
-  const topProfiles = [
-    { name: "Sophie Cooper", role: "UI/UX Designer", avatar: "https://i.pravatar.cc/150?img=5", skills: ["UI", "Branding", "Animation"] },
-    { name: "Liam Parker", role: "Full Stack Developer", avatar: "https://i.pravatar.cc/150?img=6", skills: ["React", "Node.js", "MongoDB"] },
-    { name: "Emma Rodriguez", role: "Graphic Designer", avatar: "https://i.pravatar.cc/150?img=7", skills: ["Illustration", "Typography", "Branding"] },
-    { name: "Noah Kim", role: "Data Scientist", avatar: "https://i.pravatar.cc/150?img=8", skills: ["Python", "Machine Learning", "Data Visualization"] },
-    { name: "Olivia Chen", role: "Product Manager", avatar: "https://i.pravatar.cc/150?img=9", skills: ["Strategy", "Agile", "User Research"] },
-  ]
-
-  const imageUrls = [
-    "/1.jpg",
-    "/2.jpg",
-    "/3.jpg",
-    "/4.jpg",
-    "/5.jpg"
-  ]
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -263,7 +231,7 @@ export default function HomePage(props: any) {
                         </div>
                         <div className="flex items-center text-sm text-gray-600">
                           <MapPinIcon className="w-4 h-4 mr-2 text-purple-500" />
-                          <span>{profile.ip}</span>
+                          <span>{formatAddress(profile.search.address)}</span>
                         </div>
                         <div className="flex items-center text-sm text-gray-600">
                           <CalendarIcon className="w-4 h-4 mr-2 text-purple-500" />
@@ -300,13 +268,13 @@ export default function HomePage(props: any) {
               className="flex flex-col items-center justify-center space-y-4 text-center"
             >
               <Badge className="px-3 py-1 text-sm font-medium bg-yellow-400 text-purple-900" variant="secondary">
-                Over 10,000 active students!
+                More than 100 active users
               </Badge>
               <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-purple-800">
-                Connect with top student talent
+                Meet Our New Users!
               </h2>
               <p className="max-w-[900px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Discover and collaborate with the most viewed student profiles from various fields of study.
+                Meet our newest community members who have joined us in the past few days, bringing fresh perspectives and ideas to the table.
               </p>
             </motion.div>
             <motion.div
@@ -315,23 +283,61 @@ export default function HomePage(props: any) {
               initial="initial"
               animate="animate"
             >
-              {topProfiles.map((profile, index) => (
-                //@ts-ignore
-                <motion.div key={index} variants={fadeInUp}>
-                  <Card className="overflow-hidden bg-white bg-opacity-50 backdrop-blur-lg hover:shadow-lg transition-shadow duration-300">
+              {topProfiles.map((profile: any, index: any) => (
+                <motion.div
+                  key={index}
+                  //@ts-ignore
+                  variants={fadeInUp}
+                  initial="initial"
+                  animate="animate"
+                  whileHover={hoverScale}
+                >
+                  <Card className="overflow-hidden bg-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-lg">
                     <CardContent className="p-6">
-                      <Avatar className="h-24 w-24 mx-auto mb-4 border-4 border-purple-300">
-                        <AvatarImage src={profile.avatar} alt={profile.name} />
-                        <AvatarFallback>{profile.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                      </Avatar>
-                      <h3 className="font-semibold text-center text-purple-800">{profile.name}</h3>
-                      <p className="text-sm text-gray-600 text-center mb-4">{profile.role}</p>
-                      <div className="flex flex-wrap justify-center gap-2">
-                        {profile.skills.map((skill, skillIndex) => (
-                          <Badge key={skillIndex} variant="secondary" className="bg-purple-200 text-purple-800">{skill}</Badge>
-                        ))}
-                      </div>
-                      <Button className="w-full mt-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600">View Profile</Button>
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                      >
+                        <Avatar className="h-32 w-32 mx-auto mb-6 border-4 border-purple-300 shadow-md">
+                          <AvatarImage src={profile?.picture} alt={profile?.name} />
+                          <AvatarFallback>{profile.name.split(' ').map((n: any) => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                      </motion.div>
+                      <motion.h3
+                        className="font-bold text-xl text-center text-purple-800 mb-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                      >
+                        {profile.name}
+                      </motion.h3>
+                      <motion.div
+                        className="space-y-2 mb-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <div className="flex items-center justify-center text-sm text-gray-600 truncate">
+                          <MailIcon className="w-4 h-4 mr-2 flex-shrink-0 text-purple-500" />
+                          <span className="truncate" title={maskEmail(profile.email)}>
+                            {maskEmail(profile.email)}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-center text-sm text-gray-600">
+                          <CalendarIcon className="w-4 h-4 mr-2 text-purple-500" />
+                          {convertDate(profile?.date)}
+                        </div>
+                      </motion.div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                      >
+                        <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105">
+                          View Profile
+                        </Button>
+                      </motion.div>
                     </CardContent>
                   </Card>
                 </motion.div>

@@ -7,7 +7,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     try {
         await connectDb();
         let data = await signup.find({})
-            .sort({ date: -1 }).limit(4);
+            .sort({ date: -1 }).limit(5);
         data = data.map((e) => extractUser(e));
 
         return NextResponse.json({

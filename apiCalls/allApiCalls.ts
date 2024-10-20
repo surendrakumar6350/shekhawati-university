@@ -131,3 +131,15 @@ export const recentSearches = async () => {
     return null;
   }
 };
+
+export const recentSignup = async () => {
+  try {
+    const response = await axios.post(`/api/recentSignup`);
+    const responseData = response.data;
+    return responseData;
+  } catch (error) {
+    toast("Request Failed!! ⚠️⚠️");
+    console.error(error);
+    return null;
+  }
+};
