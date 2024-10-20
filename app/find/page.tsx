@@ -1,5 +1,5 @@
-import SearchPage from '../NewComponents/findClient'
 import { Suspense } from 'react'
+import FindClient from '../NewComponents/findClient';
 
 function SearchBarFallback() {
   return <></>
@@ -10,7 +10,7 @@ export default function Page() {
     <>
       <div>
         <Suspense fallback={<SearchBarFallback />}>
-          <SearchPage />
+          <FindClient />
         </Suspense>
       </div>
     </>

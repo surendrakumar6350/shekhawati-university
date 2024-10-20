@@ -1,9 +1,9 @@
 import React from 'react'
 
 import Image from "next/image"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { GraduationCap, Search, ChevronLeft, ChevronRight, X, RefreshCw, Paperclip, Image as ImageIcon, Download } from "lucide-react"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { X, Image as ImageIcon } from "lucide-react"
 
 const Popup = (props) => {
     const { selectedProfile, handleCloseProfile } = props;

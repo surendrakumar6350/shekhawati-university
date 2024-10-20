@@ -1,6 +1,5 @@
 "use client"
 import { useState, useEffect } from 'react'
-import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -8,50 +7,36 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import Header from "../NewComponents/Header.jsx"
-import { CalendarIcon, MapPinIcon, BookOpenIcon, MailIcon } from "lucide-react"
-import { Users, ChevronRight, BookOpen, Coffee, Briefcase, Star, Zap, Globe, Lightbulb } from "lucide-react"
+import { CalendarIcon, MapPinIcon, BookOpenIcon, MailIcon, MapPin } from "lucide-react"
+import { Users, ChevronRight, BookOpen, Briefcase, Star, Zap } from "lucide-react"
 import convertDate from '../../utils/convertDate'
 import maskEmail from "../../utils/maskEmail"
 import { useDispatch, useSelector } from "react-redux";
-import { getuser } from "@/apiCalls/allApiCalls";
 import LoadingBar from "react-top-loading-bar";
-import { setUserdetails } from "../redux/allSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../NewComponents/Footer'
 import formatAddress from '../../utils/formatAddress'
 import { fadeInUp, stagger, hoverScale } from '../../utils/snippets'
+import { redirectToFind } from '../../utils/functions'
+import Popup from './Popup.jsx'
 
 
 export default function HomePage(props: any) {
   let { recentProfiles, topProfiles, imageUrls } = props;
 
+  const [selectedProfile, setSelectedProfile] = useState(null);
   const [searchQuery, setSearchQuery] = useState('')
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const dispatch = useDispatch();
-  //@ts-ignore
-  const updateuser = useSelector((data) => data?.Slice?.data);
   //@ts-ignore
   const user = useSelector((data) => data?.userSlice?.data);
   const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    (async () => {
-      const res = await getuser();
-      if (res?.success) {
-        dispatch(setUserdetails(res));
-      } else {
-        dispatch(setUserdetails({ ...user, picture: null }));
-      }
-    })();
-  }, [updateuser]);
 
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length)
     }, 5000)
-
     return () => clearInterval(interval)
   }, [])
 
@@ -61,6 +46,14 @@ export default function HomePage(props: any) {
       window.location.href = `/find?address=${searchQuery}`;
     }
   }
+
+  const handleCloseProfile = () => {
+    setSelectedProfile(null);
+  };
+
+  const handleProfileSelect = async (profile: any) => {
+    setSelectedProfile(profile);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-b from-purple-100 via-pink-100 to-blue-100">
@@ -87,7 +80,7 @@ export default function HomePage(props: any) {
                   <form onSubmit={handleSubmit} className="flex space-x-2">
                     <Input
                       className="max-w-lg flex-1 bg-white bg-opacity-20 text-white placeholder-gray-300"
-                      placeholder="Enter your location"
+                      placeholder="Enter your PIN code "
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -132,11 +125,10 @@ export default function HomePage(props: any) {
                       transition={{ duration: 0.5 }}
                       className="absolute inset-0"
                     >
-                      <Image
+                      <img
                         src={imageUrls[currentImageIndex]}
                         alt={`Student ${currentImageIndex + 1}`}
-                        layout="fill"
-                        objectFit="cover"
+                        className="absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ease-in-out"
                       />
                     </motion.div>
                   </AnimatePresence>
@@ -162,9 +154,21 @@ export default function HomePage(props: any) {
               animate="animate"
             >
               {[
-                { icon: Globe, title: 'Diverse Community', description: 'Connect with students from various backgrounds and disciplines.' },
-                { icon: Coffee, title: 'Local Meet-ups', description: 'Organize and join study sessions and social events in your area.' },
-                { icon: Lightbulb, title: 'Knowledge Exchange', description: 'Share ideas, resources, and learn from your peers.' },
+                {
+                  icon: Users,
+                  title: 'Diverse Student Network',
+                  description: 'Connect with fellow students across Shekhawati region.'
+                },
+                {
+                  icon: MapPin,
+                  title: 'Local Study Meetups',
+                  description: 'Organize and join study groups and educational events in your local area.'
+                },
+                {
+                  icon: BookOpen,
+                  title: 'Collaborative Learning',
+                  description: 'Exchange knowledge, share study resources, and learn together with peers.'
+                },
               ].map((item, index) => (
                 //@ts-ignore
                 <motion.div key={index} variants={fadeInUp}>
@@ -240,7 +244,7 @@ export default function HomePage(props: any) {
                       </div>
                       <div className="flex items-center justify-between">
                         <p className="text-xs text-gray-500">Searched By: <span className="font-semibold">{profile.user.name}</span></p>
-                        <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
+                        <Button onClick={() => handleProfileSelect(profile.search)} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
                           View Profile
                         </Button>
                       </div>
@@ -251,7 +255,7 @@ export default function HomePage(props: any) {
 
             </motion.div>
             <div className="mt-12 text-center">
-              <Button size="lg" className="bg-purple-600 text-white hover:bg-purple-700">
+              <Button onClick={redirectToFind} size="lg" className="bg-purple-600 text-white hover:bg-purple-700">
                 Explore More Profiles
                 <ChevronRight className="ml-2 h-4 w-4" />
               </Button>
@@ -334,9 +338,6 @@ export default function HomePage(props: any) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                       >
-                        <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105">
-                          View Profile
-                        </Button>
                       </motion.div>
                     </CardContent>
                   </Card>
@@ -344,14 +345,14 @@ export default function HomePage(props: any) {
               ))}
             </motion.div>
             <div className="mt-12 text-center">
-              <Button size="lg" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600">
-                Start Connecting Today
-                <Briefcase className="ml-2 h-4 w-4" />
-              </Button>
             </div>
           </div>
         </section>
       </main>
+      <Popup
+        selectedProfile={selectedProfile}
+        handleCloseProfile={handleCloseProfile}
+      />
       <Footer />
       <ToastContainer />
     </div>
