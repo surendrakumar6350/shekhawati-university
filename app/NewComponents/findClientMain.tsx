@@ -35,8 +35,6 @@ export default function SearchPage() {
     //@ts-ignore
     const user = useSelector((data) => data?.userSlice?.data);
     //@ts-ignore
-    const updateuser = useSelector((data) => data?.Slice?.data);
-    //@ts-ignore
     const Searchresult = useSelector((data) => data?.Search?.data);
 
     const nameValue = queryParams.get("name");
@@ -71,8 +69,18 @@ export default function SearchPage() {
 
     useEffect(() => {
         (async () => {
+
+            if (!Object.values({
+                name: nameValue,
+                fatherName: fatherNameValue,
+                course: courseValue,
+                mobile: mobile,
+                address: address,
+            }).every(value => value === null)) {
+                window.scrollBy({ top: 200, behavior: "smooth" });
+            }
+
             //Finding Search Result's
-            window.scrollBy({ top: 200, behavior: "smooth" });
             const searchResponse = await getStudents(
                 {
                     name: nameValue,
@@ -100,7 +108,7 @@ export default function SearchPage() {
                 }
             }
         })();
-    }, [updateuser]);
+    }, []);
 
     const handleInputChange = (e: any) => {
         const { name, value } = e.target;
