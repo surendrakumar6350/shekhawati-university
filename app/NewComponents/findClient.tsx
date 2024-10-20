@@ -24,8 +24,6 @@ const FindClient = () => {
     })();
   }, [updateuser]);
 
-  console.log(user)
-
   return (
     <>
       {user.picture == null || user.picture.length > 9 ? <SearchPage /> : <><LoadingAnimation /></>}

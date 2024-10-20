@@ -8,7 +8,6 @@ const AlluserSlice = createSlice({
   reducers: {
     setAllUsersdetails: (state, action) => {
       state.data = action.payload;
-      console.log("data added in slice");
     },
   },
 });
