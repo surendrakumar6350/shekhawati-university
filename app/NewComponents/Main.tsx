@@ -210,7 +210,7 @@ export default function HomePage(props: any) {
               animate="animate"
             >
 
-              {recentProfiles.map((profile: any, index: any) => (
+              {recentProfiles?.map((profile: any, index: any) => (
                 //@ts-ignore
                 <motion.div key={index} variants={fadeInUp} initial="initial" animate="animate">
                   <Card className="overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">

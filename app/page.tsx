@@ -51,8 +51,8 @@ const page = () => {
 
   return (
     <>
-      {recentSearchess.length > 2 && recentSignupp.length > 2 &&
-        heroImg.length > 2 ? <HomePage topProfiles={recentSignupp}
+      {recentSearchess?.length > 2 && recentSignupp?.length > 2 &&
+        heroImg?.length > 2 ? <HomePage topProfiles={recentSignupp}
           recentProfiles={recentSearchess} imageUrls={heroImg} /> :  <LoadingAnimation />}
     </>
   )

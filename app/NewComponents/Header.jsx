@@ -17,7 +17,7 @@ const Header = (props) => {
     const { picture } = props;
     const success = async (credentialResponse) => {
         const data = await googlesignup(credentialResponse);
-        if (data.success) {
+        if (data?.success) {
             toast("Login successful 🎉");
             dispatch(addduserdetails(Math.random()));
         } else {

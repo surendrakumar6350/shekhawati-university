@@ -92,7 +92,7 @@ export default function SearchPage() {
                 page
             );
             if (searchResponse?.success) {
-                dispatch(changeSearch(searchResponse.user));
+                dispatch(changeSearch(searchResponse?.user));
             }
             if (!searchResponse?.success) {
                 setLimit(true);

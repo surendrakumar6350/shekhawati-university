@@ -1,8 +1,10 @@
 import axios from "axios";
-import toast, { toastConfig } from 'react-simple-toasts';
-toastConfig({ theme: 'dark' });
+
+const MAX_RETRIES = 3; // Maximum number of retries
+const RETRY_DELAY = 1000; // Delay between retries in milliseconds
+
 //all api calls
-export const getStudents = async (data: any, page: any) => {
+export const getStudents : any = async (data: any, page: any, retries = MAX_RETRIES) => {
   let str = "/api/find?";
   if (data.name) {
     str += `name=${data.name}&`;
@@ -28,118 +30,168 @@ export const getStudents = async (data: any, page: any) => {
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return getStudents(data, page, retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const googlesignup = async (data: any) => {
+export const googlesignup : any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/signup`, data);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return googlesignup(data, retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
 
-export const allUsers = async () => {
+export const allUsers : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/allusers`);
     const responseData = response.data;
     return responseData.find;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return allUsers(retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const getuser = async () => {
+export const getuser : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/verifyuser`);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return getuser(retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const click = async (data: any) => {
+export const click : any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/postclick`, data);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return click(data, retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
 
-export const allSearchJs = async (data: any) => {
+export const allSearchJs : any = async (data: any , retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/allsearch`, data);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return allSearchJs(data, retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const logOut = async () => {
+export const logOut : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/logout`);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return logOut(retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const heroImages = async () => {
+export const heroImages: any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/HeroImg`);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return heroImages(retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const recentSearches = async () => {
+export const recentSearches : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/recentlySearchedProfiles`);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return recentSearches(retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
 
-export const recentSignup = async () => {
+export const recentSignup : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/recentSignup`);
     const responseData = response.data;
     return responseData;
   } catch (error) {
-    toast("Request Failed!! ⚠️⚠️");
-    console.error(error);
-    return null;
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return recentSignup(retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
   }
 };
