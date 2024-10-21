@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -262,7 +261,7 @@ export default function SearchPage() {
                                     className="bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300"
                                 >
                                     <div className="relative">
-                                        <Image
+                                        <img
                                             src={
                                                 profile.imgSrc == "/placeholder.svg"
                                                     ? "/placeholder.svg"

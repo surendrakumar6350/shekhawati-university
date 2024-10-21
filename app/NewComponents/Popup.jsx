@@ -72,7 +72,7 @@ const Popup = (props) => {
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500 mb-1">Signature</p>
-                                    <Image src={selectedProfile.imgSrcSign == "/placeholder.svg" ? "/placeholder.svg" : `https://exam.shekhauniexam.in/${selectedProfile.imgSrcSign}`} alt={selectedProfile.studentName}
+                                    <img src={selectedProfile.imgSrcSign == "/placeholder.svg" ? "/placeholder.svg" : `https://exam.shekhauniexam.in/${selectedProfile.imgSrcSign}`} alt={selectedProfile.studentName}
                                          width={120} height={40} />
                                 </div>
                             </div>
