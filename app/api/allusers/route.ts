@@ -6,6 +6,26 @@ import { click } from "@/dbconnection/Schemas/click";
 export async function POST(request: Request): Promise<NextResponse> {
   try {
     connectDb();
+    //@ts-ignore
+    const usercookie = await request?.cookies?.get("user");
+    const userid = usercookie?.value;
+
+    if (!userid) {
+      return NextResponse.json({
+        success: false,
+        message: "login first",
+      });
+    }
+
+    const response = await signup.findOne({ _id: userid });
+    if (!response) {
+      return NextResponse.json({ sucess: false , message: "please Login as Admin"});
+    }
+    else if(response.email != process.env.ADMIN_EMAIL) {
+      return NextResponse.json({ sucess: false , message: "please Login as Admin" });
+    }
+
+
     const find = await signup.find();
     const res = await click.find();
 

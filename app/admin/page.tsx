@@ -26,7 +26,7 @@ export default function Component() {
       setProgress(10);
       const res = await getuser();
       setProgress(70);
-      if (res.success) {
+      if (res?.success) {
         dispatch(setUserdetails(res));
       } else {
         dispatch(setUserdetails({ ...user, picture: null }));
@@ -38,7 +38,11 @@ export default function Component() {
   useEffect(() => {
     (async () => {
       const ans = await allUsers();
-      dispatch(setAllUsersdetails(ans));
+      if(ans) {
+        dispatch(setAllUsersdetails(ans));
+      } else {
+        alert("please Login As Admin");
+      }
     })();
   }, []);
 
@@ -57,7 +61,7 @@ export default function Component() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                 {users.length > 0 ? <> {users.map((user: any) => (
+                 {users?.length > 0 ? <> {users?.map((user: any) => (
                   <User user={user} />
                 ))}</> : <div className="w-full flex justify-center items-center"> <img src="/loading.gif" className="w-10 m-10 h-10 rounded" /> </div>
                 }

@@ -25,7 +25,11 @@ const User = (props: any) => {
   const toggleUserExpansion = async (userId: string) => {
     setLoading(true);
     const data = await allSearchJs({ userId: user._id });
-    setSearchedProfile(data.find);
+    if(!data?.success) {
+      setLoading(false);
+      return;
+    }
+    setSearchedProfile(data?.find);
     setLoading(false);
     setExpandedUsers((prev) =>
       prev.includes(userId)
@@ -57,18 +61,18 @@ const User = (props: any) => {
             {loading == true && (
               <img src="/loading.gif" className="w-6 h-6 rounded" />
             )}
-            {expandedUsers.includes(user.id) ? (
+            {expandedUsers?.includes(user?.id) ? (
               <>{loading == false && <ChevronUp className="h-5 w-5" />}</>
             ) : (
               <>{loading == false && <ChevronDown className="h-5 w-5" />}</>
             )}
           </div>
         </CardHeader>
-        {expandedUsers.includes(user._id) && (
+        {expandedUsers?.includes(user?._id) && (
           <CardContent>
             <div className="container mx-auto p-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {searchedProfile.map((post: any) => (
+                {searchedProfile?.map((post: any) => (
                   <div className="flex items-center gap-3">
                     <CardContent className="p-4 pt-0">
                       <div className="flex items-center gap-3">
