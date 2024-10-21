@@ -1,5 +1,5 @@
+"use client"
 import React from 'react'
-
 import Image from "next/image"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Dialog, DialogContent } from "@/components/ui/dialog"

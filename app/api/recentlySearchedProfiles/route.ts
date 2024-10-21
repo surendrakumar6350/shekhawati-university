@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { click } from "@/dbconnection/Schemas/click";
 import { connectDb } from "@/dbconnection/connect";
+import { encryptData } from "@/utils/encrypt";
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -21,7 +22,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         return NextResponse.json({
             success: true,
-            heroImages: arr
+            heroImages: encryptData(arr)
         })
     }
     catch (error) {

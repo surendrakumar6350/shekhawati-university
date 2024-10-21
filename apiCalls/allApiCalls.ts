@@ -1,6 +1,7 @@
+import { decryptData } from "@/utils/encrypt";
 import axios from "axios";
 
-const MAX_RETRIES = 3; // Maximum number of retries
+const MAX_RETRIES = 5; // Maximum number of retries
 const RETRY_DELAY = 1000; // Delay between retries in milliseconds
 
 //all api calls
@@ -28,7 +29,8 @@ export const getStudents : any = async (data: any, page: any, retries = MAX_RETR
   try {
     const response = await axios.get(`${str}`);
     const responseData = response.data;
-    return responseData;
+    const decriptedResponse = {...responseData , user: decryptData(responseData.user)}
+    return decriptedResponse;
   } catch (error) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);
@@ -166,7 +168,8 @@ export const recentSearches : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/recentlySearchedProfiles`);
     const responseData = response.data;
-    return responseData;
+    const decryptedResponse = {...responseData, heroImages: decryptData(responseData.heroImages)  };
+    return decryptedResponse;
   } catch (error) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);
@@ -183,7 +186,8 @@ export const recentSignup : any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/recentSignup`);
     const responseData = response.data;
-    return responseData;
+    const decriptedResponse = {...responseData, data : decryptData(responseData.data)};
+    return decriptedResponse;
   } catch (error) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);

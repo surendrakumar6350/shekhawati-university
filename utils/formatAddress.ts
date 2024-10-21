@@ -1,4 +1,5 @@
 function formatAddress(address : any) {
+    try {
     // Split the address into parts
     const parts = address.split(' ');
 
@@ -9,6 +10,10 @@ function formatAddress(address : any) {
     } else {
         return "Rajasthan";
     }
+} catch(error) {
+    console.log(error);
+    return "Rajasthan";
+}
 }
 
 export default formatAddress;

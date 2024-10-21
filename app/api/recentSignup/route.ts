@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { signup } from "@/dbconnection/Schemas/signup";
 import { connectDb } from "@/dbconnection/connect";
 import extractUser from "../../../utils/extractUser";
+import { encryptData } from "@/utils/encrypt";
 
 export async function POST(request: Request): Promise<NextResponse> {
     try {
@@ -12,7 +13,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
         return NextResponse.json({
             success: true,
-            data: data
+            data: encryptData(data)
         })
     }
     catch (error) {

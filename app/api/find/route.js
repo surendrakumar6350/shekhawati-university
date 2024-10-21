@@ -6,6 +6,7 @@ import { signup } from "@/dbconnection/Schemas/signup";
 import { UAParser } from "ua-parser-js";
 import { click } from "@/dbconnection/Schemas/click";
 import rateLimit from "../../../rateLimit";
+import { encryptData } from "@/utils/encrypt";
 
 export async function GET(request) {
   const { url } = request;
@@ -243,7 +244,7 @@ export async function GET(request) {
         if (find) {
           return NextResponse.json({
             success: true,
-            user: find,
+            user: encryptData(find)
           });
         } else {
           return NextResponse.json({
