@@ -3,9 +3,11 @@ import { NextResponse } from "next/server";
 import { signup } from "@/dbconnection/Schemas/signup";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { decryptData } from "@/utils/encrypt";
 
 export async function POST(request: Request): Promise<NextResponse> {
-  let data = await request.json();
+  let dataa = await request.json();
+  let data = decryptData(dataa.__VIR__W);
 
   if (!data || !data?.credential) {
     return NextResponse.json({

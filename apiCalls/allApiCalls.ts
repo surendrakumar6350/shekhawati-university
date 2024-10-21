@@ -1,4 +1,4 @@
-import { decryptData } from "@/utils/encrypt";
+import { decryptData, encryptData } from "@/utils/encrypt";
 import axios from "axios";
 
 const MAX_RETRIES = 5; // Maximum number of retries
@@ -45,7 +45,8 @@ export const getStudents : any = async (data: any, page: any, retries = MAX_RETR
 
 export const googlesignup : any = async (data: any, retries = MAX_RETRIES) => {
   try {
-    const response = await axios.post(`/api/signup`, data);
+    const encryptDataa = encryptData(data);
+    const response = await axios.post(`/api/signup`, {__VIR__W: encryptDataa});
     const responseData = response.data;
     return responseData;
   } catch (error) {
