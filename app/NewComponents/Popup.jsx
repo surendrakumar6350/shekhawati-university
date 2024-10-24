@@ -3,6 +3,8 @@ import React from 'react'
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { X, Image as ImageIcon } from "lucide-react"
+import { DialogTitle, DialogDescription } from '@radix-ui/react-dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 const Popup = (props) => {
     const { selectedProfile, handleCloseProfile } = props;
@@ -11,6 +13,13 @@ const Popup = (props) => {
         <>
             <Dialog open={!!selectedProfile} onOpenChange={handleCloseProfile}>
                 <DialogContent className="sm:max-w-[425px] p-0 bg-white overflow-hidden max-h-[75vh] flex flex-col">
+                    <div className='hidden'>
+                        <DialogTitle>
+                            <VisuallyHidden>Profile</VisuallyHidden>
+                        </DialogTitle>
+                        <DialogDescription>
+                        </DialogDescription>
+                    </div>
                     {selectedProfile && (
                         <>
                             <div className="relative bg-gray-900 text-white p-4">
@@ -72,10 +81,10 @@ const Popup = (props) => {
                                 <div>
                                     <p className="text-sm text-gray-500 mb-1">Signature</p>
                                     <img src={selectedProfile.imgSrcSign == "/placeholder.svg" ? "/placeholder.svg" : `https://exam.shekhauniexam.in/${selectedProfile.imgSrcSign}`} alt={selectedProfile.studentName}
-                                         width={120} height={40} />
+                                        width={120} height={40} />
                                 </div>
                             </div>
-                   
+
                         </>
                     )}
                 </DialogContent>

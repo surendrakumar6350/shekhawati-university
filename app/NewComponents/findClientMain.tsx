@@ -98,13 +98,9 @@ export default function SearchPage() {
                     //@ts-ignore
                     message?.error("Rate limit exceeded! You've reached your daily limit. Try again tomorrow!", 9000);
                 }
-                else if(searchResponse.message == "login first") {
+                if (searchResponse.message == "login first") {
                     //@ts-ignore
                     message?.error('Please Sign in..', 6000);
-                }
-                else {
-                    //@ts-ignore
-                    message?.error('Something Wrong...', 6000);
                 }
             }
         })();
