@@ -13,8 +13,6 @@ import convertDate from '../../utils/convertDate'
 import maskEmail from "../../utils/maskEmail"
 import { useDispatch, useSelector } from "react-redux";
 import LoadingBar from "react-top-loading-bar";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Footer from '../NewComponents/Footer'
 import formatAddress from '../../utils/formatAddress'
 import { fadeInUp, stagger, hoverScale } from '../../utils/snippets'
@@ -354,7 +352,6 @@ export default function HomePage(props: any) {
         handleCloseProfile={handleCloseProfile}
       />
       <Footer />
-      <ToastContainer />
     </div>
   )
 }

@@ -8,8 +8,6 @@ import { ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { click, getStudents, getuser, logOut } from "@/apiCalls/allApiCalls";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Header from "../NewComponents/Header";
 import { changeSearch } from "../redux/search";
 import Popup from "../NewComponents/Popup";
@@ -93,17 +91,16 @@ export default function SearchPage() {
             if (searchResponse?.success) {
                 dispatch(changeSearch(searchResponse?.user));
             }
+
             if (!searchResponse?.success) {
                 setLimit(true);
                 if (searchResponse.message == "Rate limit exceeded") {
-                    toast(
-                        "Rate limit exceeded! You've reached your daily limit. Try again tomorrow!"
-                    );
+                    //@ts-ignore
+                    message?.error("Rate limit exceeded! You've reached your daily limit. Try again tomorrow!", 4000);
                 }
                 if (searchResponse.message == "login first") {
-                    toast(
-                        "Please Sign in.."
-                    );
+                    //@ts-ignore
+                    message?.error('Please Sign in..', 4000);
                 }
             }
         })();
