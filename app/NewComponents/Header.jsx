@@ -15,7 +15,7 @@ const Header = (props) => {
     const dispatch = useDispatch();
     const { picture } = props;
     const success = async (credentialResponse) => {
-        message.loading('working...', 4000).then(async ({ destory }) => {
+        message.loading('working...', 24000).then(async ({ destory }) => {
             const data = await googlesignup(credentialResponse);
             if (data?.success) {
                 dispatch(addduserdetails(Math.random()));
