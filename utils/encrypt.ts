@@ -11,7 +11,6 @@ const encryptData = (data : any) => {
         const ciphertext = CryptoJS.AES.encrypt(stringData, secretKey).toString();
         return ciphertext;
     } catch (error) {
-        console.error('Encryption error:', error);
         return null; // Return null or handle the error as needed
     }
 };
@@ -31,7 +30,6 @@ const decryptData = (ciphertext : any) => {
         // Parse back to original array
         return JSON.parse(originalData);
     } catch (error) {
-        console.error('Decryption error:', error);
         return null; // Return null or handle the error as needed
     }
 };
