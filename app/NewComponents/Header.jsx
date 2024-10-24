@@ -49,7 +49,7 @@ const Header = (props) => {
                         </span>
                     </Link>
                     <div className="flex items-center">
-                        {picture && picture.length > 9 ? (
+                        {picture && picture?.length > 9 ? (
                             <div className="relative group">
                                 <motion.div
                                     whileHover={{ scale: 1.05 }}

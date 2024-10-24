@@ -47,7 +47,7 @@ export const googlesignup : any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const encryptDataa = encryptData(data);
     const response = await axios.post(`/api/signup`, {__VIR__W: encryptDataa});
-    const responseData = response.data;
+    const responseData = response?.data;
     return responseData;
   } catch (error) {
     if (retries > 0) {

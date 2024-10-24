@@ -42,7 +42,6 @@ export async function POST(request: Request): Promise<NextResponse> {
       } catch (err) {
         console.error(err);
       }
-      console.log(base64);
       const res = new signup({
         ...data,
         picture: base64,
