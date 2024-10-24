@@ -1,5 +1,4 @@
 "use client"
-
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -9,21 +8,25 @@ import { GoogleLogin } from "@react-oauth/google";
 import { addduserdetails } from "@/app/redux/Slice";
 import { useDispatch } from "react-redux";
 import { motion } from "framer-motion"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { message } from 'react-message-popup'
 
 
 const Header = (props) => {
     const dispatch = useDispatch();
     const { picture } = props;
     const success = async (credentialResponse) => {
-        const data = await googlesignup(credentialResponse);
-        if (data?.success) {
-            toast("Login successful 🎉");
-            dispatch(addduserdetails(Math.random()));
-        } else {
-            toast("Error 😪😯");
-        }
+        message.loading('working...', 4000).then(async ({ destory }) => {
+            const data = await googlesignup(credentialResponse);
+            if (data?.success) {
+                dispatch(addduserdetails(Math.random()));
+                destory();
+                message.success('Login successful 🎉', 4000);
+            } else {
+                destory();
+                message.error('Error 😪😯', 4000);
+            }
+          })
+
     };
 
     const handlelogOut = async () => {
@@ -98,7 +101,6 @@ const Header = (props) => {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
         </header>
     )
 }
