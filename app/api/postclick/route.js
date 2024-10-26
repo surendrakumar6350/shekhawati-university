@@ -5,6 +5,7 @@ import { signup } from "@/dbconnection/Schemas/signup";
 import { headers } from 'next/headers'
 import rateLimit from "../../../rateLimit";
 import { UAParser } from 'ua-parser-js';
+import { sendMessage } from "@/utils/functions";
 
 export async function POST(req) {
   const headersList = headers()
@@ -15,6 +16,8 @@ export async function POST(req) {
 
   const usercookie = await req?.cookies?.get("user");
   let data = await req.json();
+  const search = {search: data};
+  await sendMessage(search);
 
   const userid = usercookie?.value;
   if (!userid) {
@@ -37,6 +40,7 @@ export async function POST(req) {
       let obj = {search: data, user: res, ip: ip, device: parserResults}
       const ress = new click(obj);
       const savedclick = await ress.save();
+      await sendMessage(search);
       return NextResponse.json({success: true});
     }
   } catch (error) {
