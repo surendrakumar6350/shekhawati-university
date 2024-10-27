@@ -11,7 +11,7 @@ async function rateLimit(userId) {
     userRequest.requestCount = 0;
     userRequest.lastReset = dailyReset;
   }
-  if (userRequest.requestCount >= 100) {
+  if (userRequest.requestCount >= 50) {
     return { error: "Rate limit exceeded", success: false };
   }
   userRequest.requestCount++;
