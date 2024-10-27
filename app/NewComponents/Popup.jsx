@@ -69,14 +69,14 @@ const Popup = (props) => {
                                         <p className="text-gray-500">Mobile</p>
                                         <p className="font-medium">{selectedProfile.mobile}</p>
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         <p className="text-gray-500">ABCID</p>
-                                        <p className="font-medium">{selectedProfile.abcId}</p>
+                                        <p className="font-medium">{"Private"}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500">Aadhaar</p>
-                                        <p className="font-medium">{selectedProfile.aadharNo}</p>
-                                    </div>
+                                        <p className="font-medium">{"Private"}</p>
+                                    </div> */}
                                 </div>
                                 <div>
                                     <p className="text-sm text-gray-500 mb-1">Signature</p>

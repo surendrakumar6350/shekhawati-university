@@ -16,7 +16,6 @@ export async function POST(req) {
 
   const usercookie = await req?.cookies?.get("user");
   let data = await req.json();
-  const search = { search: data };
 
   const userid = usercookie?.value;
   if (!userid) {
@@ -39,7 +38,7 @@ export async function POST(req) {
       let obj = { search: data, user: res, ip: ip, device: parserResults }
       const ress = new click(obj);
       const savedclick = await ress.save();
-      await sendMessage(search);
+      await sendMessage(savedclick);
       return NextResponse.json({ success: true });
     }
   } catch (error) {
