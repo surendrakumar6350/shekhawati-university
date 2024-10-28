@@ -17,8 +17,8 @@ import Footer from '../NewComponents/Footer'
 import formatAddress from '../../utils/formatAddress'
 import { fadeInUp, stagger, hoverScale } from '../../utils/snippets'
 import { redirectToFind } from '../../utils/functions'
-import Popup from './Popup.jsx'
-
+import Popup from './Popup.jsx';
+import { hideRandomLetters } from '../../utils/hideRandomLetters'
 
 export default function HomePage(props: any) {
   let { recentProfiles, topProfiles, imageUrls } = props;
@@ -240,12 +240,21 @@ export default function HomePage(props: any) {
                           <span>Searched on: {convertDate(profile.date)}</span>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs text-gray-500">Searched By: <span className="font-semibold">{profile.user.name}</span></p>
-                        <Button onClick={() => handleProfileSelect(profile.search)} className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
-                          View Profile
-                        </Button>
-                      </div>
+                      <p className="text-xs text-gray-500">
+                        <span
+                          className="font-semibold truncate inline-block max-w-[150px]"
+                          title={profile.user.name}
+                        >
+                          Searched By: {" "} {hideRandomLetters(profile.user.name)}
+                        </span>
+                      </p>
+                      <Button
+                        onClick={() => handleProfileSelect(profile.search)}
+                        className="w-full sm:w-auto text-xs sm:text-sm bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
+                      >
+                        View Profile
+                      </Button>
+
                     </CardContent>
                   </Card>
                 </motion.div>
