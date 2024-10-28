@@ -331,6 +331,7 @@ export default function SearchPage() {
                 <Popup
                     selectedProfile={selectedProfile}
                     handleCloseProfile={handleCloseProfile}
+                    Home={false}
                 />
             </main>
 
