@@ -7,7 +7,7 @@ import { DialogTitle, DialogDescription } from '@radix-ui/react-dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 const Popup = (props) => {
-    const { selectedProfile, handleCloseProfile } = props;
+    const { selectedProfile, handleCloseProfile, Home } = props;
 
     return (
         <>
@@ -59,15 +59,15 @@ const Popup = (props) => {
                                     </div>
                                     <div className="col-span-2">
                                         <p className="text-gray-500">Address</p>
-                                        <p className="font-medium break-words">{selectedProfile.address}</p>
+                                        <p className="font-medium break-words">{Home ? "Private" : selectedProfile.address}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500">Email</p>
-                                        <p className="font-medium break-words">{selectedProfile.email}</p>
+                                        <p className="font-medium break-words">{Home ? "Private" : selectedProfile.email}</p>
                                     </div>
                                     <div>
                                         <p className="text-gray-500">Mobile</p>
-                                        <p className="font-medium">{selectedProfile.mobile}</p>
+                                        <p className="font-medium">{Home ? "Private" : selectedProfile.mobile}</p>
                                     </div>
                                     {/* <div>
                                         <p className="text-gray-500">ABCID</p>

@@ -350,6 +350,7 @@ export default function HomePage(props: any) {
       <Popup
         selectedProfile={selectedProfile}
         handleCloseProfile={handleCloseProfile}
+        Home={true}
       />
       <Footer />
     </div>
