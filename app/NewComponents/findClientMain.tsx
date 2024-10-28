@@ -90,6 +90,11 @@ export default function SearchPage() {
             );
             if (searchResponse?.success) {
                 dispatch(changeSearch(searchResponse?.user));
+                if(searchResponse?.user.length < 1) {
+                    //@ts-ignore
+                    message.error('No Data Found!!!', 4000);
+                    setLimit(true);
+                }
             }
 
             if (!searchResponse?.success) {
@@ -237,7 +242,7 @@ export default function SearchPage() {
                     </form>
                 </div>
 
-                {!areAllQueryParamsNull(queryParams) && !limit && Searchresult?.length < 2 && (
+                {!areAllQueryParamsNull(queryParams) && !limit && Searchresult?.length < 1 && (
                     <div className="w-[100%] m-auto flex justify-center items-center">
                         {" "}
                         <img
