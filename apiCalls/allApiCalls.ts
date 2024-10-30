@@ -150,7 +150,7 @@ export const logOut : any = async (retries = MAX_RETRIES) => {
 
 export const heroImages: any = async (retries = MAX_RETRIES) => {
   try {
-    const response = await axios.post(`/api/HeroImg`);
+    const response = await axios.post(`http://localhost:3000/api/HeroImg`);
     const responseData = response.data;
     return responseData;
   } catch (error) {
@@ -167,7 +167,7 @@ export const heroImages: any = async (retries = MAX_RETRIES) => {
 
 export const recentSearches : any = async (retries = MAX_RETRIES) => {
   try {
-    const response = await axios.post(`/api/recentlySearchedProfiles`);
+    const response = await axios.post(`http://localhost:3000/api/recentlySearchedProfiles`);
     const responseData = response.data;
     const decryptedResponse = {...responseData, heroImages: decryptData(responseData.heroImages)  };
     return decryptedResponse;
@@ -185,7 +185,7 @@ export const recentSearches : any = async (retries = MAX_RETRIES) => {
 
 export const recentSignup : any = async (retries = MAX_RETRIES) => {
   try {
-    const response = await axios.post(`/api/recentSignup`);
+    const response = await axios.post(`http://localhost:3000/api/recentSignup`);
     const responseData = response.data;
     const decriptedResponse = {...responseData, data : decryptData(responseData.data)};
     return decriptedResponse;
