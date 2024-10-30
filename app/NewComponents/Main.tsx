@@ -8,26 +8,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import Header from "../NewComponents/Header.jsx"
 import { CalendarIcon, MapPinIcon, BookOpenIcon, MailIcon, MapPin } from "lucide-react"
-import { Users, ChevronRight, BookOpen, Briefcase, Star, Zap } from "lucide-react"
+import { Users, ChevronRight, BookOpen, Star, Zap } from "lucide-react"
 import convertDate from '../../utils/convertDate'
 import maskEmail from "../../utils/maskEmail"
-import { useDispatch, useSelector } from "react-redux";
-import LoadingBar from "react-top-loading-bar";
+import LoadingBar from "react-top-loading-bar"
 import Footer from '../NewComponents/Footer'
 import formatAddress from '../../utils/formatAddress'
 import { fadeInUp, stagger, hoverScale } from '../../utils/snippets'
 import { redirectToFind } from '../../utils/functions'
-import Popup from './Popup.jsx';
+import Popup from './Popup.jsx'
 import { hideRandomLetters } from '../../utils/hideRandomLetters'
+import type { HomePageProps } from '../@types/homepage.js'
 
-export default function HomePage(props: any) {
+export default function HomePage(props: HomePageProps) {
   let { recentProfiles, topProfiles, imageUrls } = props;
-
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [searchQuery, setSearchQuery] = useState('')
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  //@ts-ignore
-  const user = useSelector((data) => data?.userSlice?.data);
   const [progress, setProgress] = useState(0);
 
 
@@ -60,7 +57,7 @@ export default function HomePage(props: any) {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
-      <Header picture={user.picture} />
+      <Header />
       <main className="flex-1">
         <section className="w-full flex justify-center py-6 md:py-8 lg:py-10 xl:py-10 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
           <div className="container px-4 md:px-6">
