@@ -165,7 +165,7 @@ export default function SearchPage() {
                                 <Input
                                     type="text"
                                     name="name"
-                                    placeholder="Your Name"
+                                    placeholder="Student Name"
                                     value={searchParams.name}
                                     onChange={handleInputChange}
                                     className="w-full border-2 border-purple-300 focus:border-pink-500 rounded-md p-2"
@@ -175,7 +175,7 @@ export default function SearchPage() {
                                 <Input
                                     type="text"
                                     name="fatherName"
-                                    placeholder="Father's Name"
+                                    placeholder="Student's Father Name"
                                     value={searchParams.fatherName}
                                     onChange={handleInputChange}
                                     className="w-full border-2 border-purple-300 focus:border-pink-500 rounded-md p-2"
@@ -185,7 +185,7 @@ export default function SearchPage() {
                                 <Input
                                     type="tel"
                                     name="mobile"
-                                    placeholder="Mobile Number"
+                                    placeholder="Student's Mobile Number"
                                     value={searchParams.mobile}
                                     onChange={handleInputChange}
                                     className="w-full border-2 border-purple-300 focus:border-pink-500 rounded-md p-2"
@@ -195,7 +195,7 @@ export default function SearchPage() {
                                 <Input
                                     type="text"
                                     name="address"
-                                    placeholder="Address"
+                                    placeholder="Student's Address"
                                     value={searchParams.address}
                                     onChange={handleInputChange}
                                     className="w-full border-2 border-purple-300 focus:border-pink-500 rounded-md p-2"

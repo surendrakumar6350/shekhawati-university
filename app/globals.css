@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+@font-face {
+  font-family: GeistVF;
+  src: url(./fonts/GeistVF.woff);
 }
+
+* {
+  font-family: GeistVF;
+}
+
 
 @layer utilities {
   .text-balance {

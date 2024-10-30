@@ -67,8 +67,8 @@ export default function HomePage(props: any) {
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
               <div className="flex flex-col justify-center space-y-4">
                 <div className="space-y-2">
-                  <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-white">
-                    Connect with Students Near You
+                  <h1 className="text-3xl font-bold tracking-normal sm:text-5xl xl:text-6xl/none text-white">
+                    Find Students and Build Community
                   </h1>
                   <p className="max-w-[600px] text-gray-200 md:text-xl">
                     Discover, collaborate, and grow with fellow students in your area
