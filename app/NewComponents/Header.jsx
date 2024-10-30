@@ -7,15 +7,20 @@ import { GraduationCap, LogOut, Search, Globe } from "lucide-react"
 import { googlesignup, logOut } from "@/apiCalls/allApiCalls";
 import { GoogleLogin } from "@react-oauth/google";
 import { addduserdetails } from "@/app/redux/Slice";
-import { useDispatch } from "react-redux";
 import { motion } from "framer-motion"
 import { message } from 'react-message-popup'
+import { useDispatch, useSelector } from "react-redux";
+import { getuser } from '@/apiCalls/allApiCalls';
+import { setUserdetails } from '../redux/allSlice';
+import { useEffect } from 'react';
 
 
-const Header = (props) => {
+const Header = () => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
+    const updateuser = useSelector((data) => data.Slice.data);
+    const user = useSelector((data) => data.userSlice.data);
     const dispatch = useDispatch();
-    const { picture } = props;
+    const { picture } = user;
 
     const success = async (credentialResponse) => {
         message.loading('working...', 24000).then(async ({ destory }) => {
@@ -39,6 +44,17 @@ const Header = (props) => {
         }
     }
 
+    useEffect(() => {
+        (async () => {
+            const res = await getuser();
+            if (res?.success) {
+                dispatch(setUserdetails(res));
+            } else {
+                dispatch(setUserdetails({ ...user, picture: null }));
+            }
+        })();
+    }, [updateuser]);
+
     return (
         <header className="sticky top-0 z-50 w-full bg-white bg-opacity-90 backdrop-blur-md shadow-md">
             <div className="container mx-auto px-4 py-3">
@@ -50,34 +66,36 @@ const Header = (props) => {
                         >
                             <GraduationCap className="h-10 w-10 text-indigo-600 group-hover:text-pink-500 transition-colors" />
                         </motion.div>
-                        <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
+                        <span className="md:text-2xl text-xl font-bold bg-gradient-to-r from-indigo-600 to-pink-500 bg-clip-text text-transparent">
                             Shekhawati Hub
                         </span>
                     </Link>
-                    <div className="flex items-center gap-4">
-                        <div className=" rounded-md bg-gradient-to-r from-indigo-600 to-pink-500 p-0.5">
-                            <Link href="/explore">
-                                <button className="flex gap-1 bg-white text-purple-800 font-bold py-2 px-4 rounded">Explore <Globe /> </button>
-                            </Link>
-                        </div>
-                        <div>
-                            <div>
-                                <Link href="/find">
-                                    <Search
-                                        data-tooltip-target="tooltip-default"
-                                        onMouseEnter={() => setTooltipVisible(true)}
-                                        onMouseLeave={() => setTooltipVisible(false)}
-                                        className="w-7 h-7 text-pink-500 cursor-pointer"
-                                    />
+                    <div className='flex justify-center items-center'>
+                        <div className="items-center gap-4 hidden md:flex mr-7">
+                            <div className=" rounded-md bg-gradient-to-r from-indigo-600 to-pink-500 p-0.5">
+                                <Link href="/explore">
+                                    <button className="flex gap-1 bg-white text-purple-800 font-bold py-2 px-4 rounded">Explore <Globe /> </button>
                                 </Link>
-                                <div
-                                    id="tooltip-default"
-                                    role="tooltip"
-                                    className={`absolute my-2 z-10 px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm dark:bg-gray-700 ${isTooltipVisible ? 'opacity-100 visible' : 'opacity-0 invisible'
-                                        }`}
-                                >
-                                    Find students by name
-                                    <div className="tooltip-arrow" data-popper-arrow></div>
+                            </div>
+                            <div>
+                                <div>
+                                    <Link href="/find">
+                                        <Search
+                                            data-tooltip-target="tooltip-default"
+                                            onMouseEnter={() => setTooltipVisible(true)}
+                                            onMouseLeave={() => setTooltipVisible(false)}
+                                            className="w-7 h-7 text-pink-500 cursor-pointer"
+                                        />
+                                    </Link>
+                                    <div
+                                        id="tooltip-default"
+                                        role="tooltip"
+                                        className={`absolute my-2 z-10 px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm dark:bg-gray-700 ${isTooltipVisible ? 'opacity-100 visible' : 'opacity-0 invisible'
+                                            }`}
+                                    >
+                                        Find students by name
+                                        <div className="tooltip-arrow" data-popper-arrow></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
