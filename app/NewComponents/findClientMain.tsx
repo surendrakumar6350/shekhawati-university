@@ -23,16 +23,9 @@ import Footer from './Footer'
 
 export default function SearchPage() {
     const [limit, setLimit] = useState(false);
-    const [index, setIndex] = useState(0)
-    const words = ['Connect', 'Collaborate', 'Create']
-
     const queryParams = useSearchParams();
     const dispatch = useDispatch();
-
-    //@ts-ignore
-    const user = useSelector((data) => data?.userSlice?.data);
-    //@ts-ignore
-    const Searchresult = useSelector((data) => data?.Search?.data);
+    const Searchresult = useSelector((data: any) => data.Search.data);
 
     const nameValue = queryParams.get("name");
     const fatherNameValue = queryParams.get("fatherName");
@@ -51,13 +44,6 @@ export default function SearchPage() {
         page: page,
     });
 
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setIndex((prevIndex) => (prevIndex + 1) % words.length)
-        }, 2000)
-        return () => clearInterval(timer)
-    }, [])
 
     const paginate = (pageNumber: any) => {
         setSearchParams((prev) => ({ ...prev, page: pageNumber }));
@@ -90,7 +76,7 @@ export default function SearchPage() {
             );
             if (searchResponse?.success) {
                 dispatch(changeSearch(searchResponse?.user));
-                if(searchResponse?.user.length < 1) {
+                if (searchResponse?.user.length < 1) {
                     //@ts-ignore
                     message.error('No Data Found!!!', 4000);
                     setLimit(true);
@@ -134,7 +120,7 @@ export default function SearchPage() {
 
     return (
         <div className="flex flex-col min-h-screen bg-gradient-to-b from-purple-100 via-pink-100 to-blue-100">
-            <Header picture={user.picture} />
+            <Header />
 
             <main className="flex-1 container mx-auto px-4 py-4">
                 <div className="max-w-4xl mx-auto bg-white bg-opacity-90 backdrop-blur-md rounded-lg shadow-lg p-1 mb-1">
