@@ -18,7 +18,7 @@ import { fadeInUp, stagger, hoverScale } from '../../utils/snippets'
 import { redirectToFind } from '../../utils/functions'
 import Popup from './Popup.jsx'
 import { hideRandomLetters } from '../../utils/hideRandomLetters'
-import type { HomePageProps } from '../@types/homepage.js'
+import type { HomePageProps } from '../types/homepage'
 
 export default function HomePage(props: HomePageProps) {
   let { recentProfiles, topProfiles, imageUrls } = props;
