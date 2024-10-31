@@ -14,12 +14,9 @@ import { setAllUsersdetails } from "@/app/redux/allUser";
 export default function Component() {
   const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
-  //@ts-ignore
-  const user = useSelector((data) => data?.userSlice?.data);
-  //@ts-ignore
-  const updateuser = useSelector((data) => data?.Slice?.data);
-  //@ts-ignore
-  const users = useSelector((data) => data?.AlluserSlice?.data);
+  const user = useSelector((data : any) => data?.userSlice?.data);
+  const updateuser = useSelector((data : any) => data?.Slice?.data);
+  const users = useSelector((data : any) => data?.AlluserSlice?.data);
 
   useEffect(() => {
     (async () => {
