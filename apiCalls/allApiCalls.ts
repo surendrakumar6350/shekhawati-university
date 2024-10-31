@@ -167,13 +167,8 @@ export const heroImages: any = async (retries = MAX_RETRIES) => {
 
 export const recentSearches : any = async (retries = MAX_RETRIES) => {
   try {
-    const response = await fetch(`https://shekhawati-kaa-data.online/api/recentlySearchedProfiles`,  {cache: 'no-store'});
-  
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    const responseData = await response.json();
+    const response = await axios.post(`https://shekhawati-kaa-data.online/api/recentlySearchedProfiles`);
+    const responseData = response.data;
     const decryptedResponse = {...responseData, heroImages: decryptData(responseData.heroImages)  };
     return decryptedResponse;
   } catch (error) {
