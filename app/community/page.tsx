@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react'
 import { useSelector } from "react-redux";
-import Header from "../NewComponents/Header";
-import Footer from "../NewComponents/Footer";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Separator } from "@/components/ui/separator"
+import type { Channel, Category, Message, User } from '../types/community';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     Tooltip,
@@ -36,32 +34,7 @@ import {
     FolderPlus,
 } from 'lucide-react'
 
-type Channel = {
-    id: string
-    name: string
-    type: 'text' | 'voice'
-}
 
-type Category = {
-    id: string
-    name: string
-    channels: Channel[]
-}
-
-type Message = {
-    id: number
-    user: string
-    content: string
-    timestamp: string
-}
-
-type User = {
-    id: string
-    name: string
-    status: 'online' | 'offline'
-    picture?: string;
-    role: string
-}
 
 export default function CommunityPage() {
     const [categories, setCategories] = useState<Category[]>([
@@ -165,13 +138,12 @@ export default function CommunityPage() {
         }
     }
 
-    
+
 
     // Specify the type of the user using TypeScript
     const user = useSelector((state: { userSlice: { data: User } }) => state.userSlice.data);
     return (
         <>
-            {/* <Header picture={user?.picture} /> */}
             <div className="flex h-screen bg-background text-foreground">
                 {/* Channels Sidebar */}
                 <aside className="w-64 bg-muted flex flex-col">

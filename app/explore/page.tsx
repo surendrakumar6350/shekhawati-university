@@ -1,6 +1,5 @@
 "use client";
 
-import { useSelector } from "react-redux";
 import Header from "../NewComponents/Header";
 import Footer from "../NewComponents/Footer";
 import BreadCrumb from "../NewComponents/BreadCrumb";
@@ -11,55 +10,14 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { CalendarIcon, MapPinIcon, UsersIcon, PlayCircleIcon, PlusCircleIcon, FileText } from "lucide-react";
-import CommunityImg from "/breadcrumbs/community.jpg"
+import type { LearnItem, Speaker, TechTalk, Event, Community, User } from "../types/explorepage";
 
-// Define TypeScript types for user, community, event, and other entities
-interface User {
-    picture?: string;
-}
 
-interface Community {
-    id: number;
-    name: string;
-    description: string;
-    location: string;
-    memberCount: number;
-    tags: string[];
-}
-
-interface Event {
-    id: number;
-    name: string;
-    date: string;
-    location: string;
-}
-
-interface TechTalk {
-    id: number;
-    title: string;
-    speaker: string;
-}
-
-interface Speaker {
-    id: number;
-    name: string;
-    role: string;
-    avatar: string;
-}
-
-interface LearnItem {
-    id: number;
-    title: string;
-}
-
-// Define the component
 export default function Page() {
-    // Specify the type of the user using TypeScript
-    const user = useSelector((state: { userSlice: { data: User } }) => state.userSlice.data);
 
     return (
         <>
-            <Header picture={user?.picture} />
+            <Header />
             <main className="flex-1 px-4 py-4 bg-gradient-to-b from-purple-100 to-pink-100">
                 <BreadCrumb
                     imageSrc={'/breadcrumbs/community.jpg'}
@@ -217,7 +175,7 @@ function CommunityCard({ community, featured = false }: { community: Community; 
                 </div>
             </CardContent>
             <CardFooter>
-                <Link href='/community'>
+                <Link href='/coming-soon'>
                     <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-300">Join</Button>
                 </Link>
             </CardFooter>
