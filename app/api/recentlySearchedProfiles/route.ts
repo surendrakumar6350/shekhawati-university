@@ -3,7 +3,7 @@ import { click } from "@/dbconnection/Schemas/click";
 import { connectDb } from "@/dbconnection/connect";
 import { encryptData } from "@/utils/encrypt";
 
-export async function POST(request: Request): Promise<NextResponse> {
+export async function GET(request: Request): Promise<NextResponse> {
     try {
         await connectDb();
         const data = await click.find({})
