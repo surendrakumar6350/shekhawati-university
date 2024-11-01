@@ -4,11 +4,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { GraduationCap, LogOut, Search, Globe } from "lucide-react"
-import { googlesignup, logOut } from "@/apiCalls/allApiCalls";
-import { GoogleLogin } from "@react-oauth/google";
-import { addduserdetails } from "@/app/redux/Slice";
+import { logOut } from "@/apiCalls/allApiCalls";
 import { motion } from "framer-motion"
-import { message } from 'react-message-popup'
 import { useDispatch, useSelector } from "react-redux";
 import { getuser } from '@/apiCalls/allApiCalls';
 import { setUserdetails } from '../redux/allSlice';
@@ -21,21 +18,6 @@ const Header = () => {
     const user = useSelector((data) => data.userSlice.data);
     const dispatch = useDispatch();
     const { picture } = user;
-
-    const success = async (credentialResponse) => {
-        message.loading('working...', 24000).then(async ({ destory }) => {
-            const data = await googlesignup(credentialResponse);
-            if (data?.success) {
-                dispatch(addduserdetails(Math.random()));
-                destory();
-                message.success('Login successful 🎉', 4000);
-            } else {
-                destory();
-                message.error('Error 😪😯', 4000);
-            }
-        })
-
-    };
 
     const handlelogOut = async () => {
         const ans = await logOut();
@@ -134,14 +116,7 @@ const Header = () => {
                                 >
                                     <>
                                         <div className="flex items-center">
-                                            <GoogleLogin
-                                                size="medium"
-                                                text="signin"
-                                                onSuccess={success}
-                                                onError={() => {
-                                                    console.log("Login Failed");
-                                                }}
-                                            />
+                                            <Button variant="outline"><Link href={"/signup"}> Log In</Link></Button>
                                         </div>
                                     </>
                                 </motion.div>
