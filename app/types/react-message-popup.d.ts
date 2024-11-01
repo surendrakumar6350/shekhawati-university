@@ -3,8 +3,7 @@ declare module 'react-message-popup' {
     interface MessagePopup {
         error: (message: string, duration?: number) => void;
         success: (message: string, duration?: number) => void;
-        info?: (message: string, duration?: number) => void;
-        // Add more methods as needed
+        loading: (message: string, duration?: number) => Promise<{ destroy: () => void }>;
     }
 
     // Exporting message as a named export

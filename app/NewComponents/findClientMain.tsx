@@ -91,7 +91,7 @@ export default function SearchPage() {
                 }
                 if (searchResponse.message == "login first") {
                     //@ts-ignore
-                    message?.error('Please Sign in..', 6000);
+                    message?.error('Please Log in..', 6000);
                 }
             }
         })();

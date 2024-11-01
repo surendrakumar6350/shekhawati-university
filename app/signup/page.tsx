@@ -11,7 +11,8 @@ import { sendOTP, verifyOTP } from '@/apiCalls/allApiCalls'
 import { message } from 'react-message-popup'
 import { avatarOptions } from '@/utils/mobileSignUtils'
 import { onSubmitPhone, onSubmitOtp, onSubmitProfile } from '@/utils/mobileSignUtils'
-
+import { GoogleLogin } from "@react-oauth/google";
+import { googlesignup } from '@/apiCalls/allApiCalls'
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -20,57 +21,27 @@ export default function Page() {
   const [name, setName] = useState('')
   const [selectedAvatar, setSelectedAvatar] = useState('/avatar1.png')
   const [step, setStep] = useState(1)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-    }
-  }, [])
-
+  const success = async (credentialResponse: any) => {
+    message.loading('working...', 24000).then(async ({ destory }: any) => {
+      const data = await googlesignup(credentialResponse);
+      if (data?.success) {
+        destory();
+        message.success('Login successful 🎉', 4000);
+        window.location.href = "/";
+      } else {
+        destory();
+        message.error('Error 😪😯', 4000);
+      }
+    })
+  };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-200 py-12 lg:py-24 overflow-hidden relative">
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-blue-300/20 via-purple-300/20 to-pink-300/20"
-        style={{
-          transform: `translate(${mousePosition.x / 100}px, ${mousePosition.y / 100}px)`,
-        }}
-      />
-      <div className="absolute inset-0 backdrop-blur-3xl" />
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-400/30 rounded-full mix-blend-multiply filter blur-xl"
-        animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-purple-400/30 rounded-full mix-blend-multiply filter blur-xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          repeatType: 'reverse',
-        }}
-      />
 
-      <div className="container relative px-4">
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-200 py-12 lg:py-24 overflow-hidden relative">
+      <div className="w-full h-full px-6">
         <motion.div
-          className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]"
+          className="mx-auto flex w-full flex-col justify-center items-center space-y-6 sm:w-[350px]"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -131,9 +102,6 @@ export default function Page() {
               <form onSubmit={(e) => onSubmitOtp(e, setIsLoading, otp, message, verifyOTP, phoneNumber, selectedAvatar, name)}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
-                    <Label className="text-gray-700" htmlFor="otp">
-                      OTP
-                    </Label>
                     <Input
                       id="otp"
                       placeholder="Enter OTP"
@@ -213,9 +181,16 @@ export default function Page() {
                     <span className="bg-transparent px-2 text-gray-500">Or continue with</span>
                   </div>
                 </div>
-                <Button variant="outline" type="button" disabled={isLoading} className="bg-white/50 text-gray-900 border-gray-200 hover:bg-white/80">
-                  Google
-                </Button>
+                <div className="flex items-center">
+                  <GoogleLogin
+                    width="380"
+                    size="large"
+                    text="continue_with"
+                    onSuccess={success}
+                    onError={() => {
+                      console.log("Login Failed");
+                    }}
+                  /> </div>
               </>
             )}
           </motion.div>
