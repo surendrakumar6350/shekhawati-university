@@ -4,6 +4,8 @@ import { connectDb } from "@/dbconnection/connect";
 import { encryptData } from "@/utils/encrypt";
 
 export async function GET(request: Request): Promise<NextResponse> {
+    const { url } = request;
+    console.log(url);
     try {
         await connectDb();
         const data = await click.find({})
