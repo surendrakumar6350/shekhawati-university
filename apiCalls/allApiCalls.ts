@@ -5,7 +5,7 @@ const MAX_RETRIES = 5; // Maximum number of retries
 const RETRY_DELAY = 1000; // Delay between retries in milliseconds
 
 //all api calls
-export const getStudents : any = async (data: any, page: any, retries = MAX_RETRIES) => {
+export const getStudents: any = async (data: any, page: any, retries = MAX_RETRIES) => {
   let str = "/api/find?";
   if (data.name) {
     str += `name=${data.name}&`;
@@ -29,7 +29,7 @@ export const getStudents : any = async (data: any, page: any, retries = MAX_RETR
   try {
     const response = await axios.get(`${str}`);
     const responseData = response.data;
-    const decriptedResponse = {...responseData , user: decryptData(responseData.user)}
+    const decriptedResponse = { ...responseData, user: decryptData(responseData.user) }
     return decriptedResponse;
   } catch (error) {
     if (retries > 0) {
@@ -43,10 +43,10 @@ export const getStudents : any = async (data: any, page: any, retries = MAX_RETR
   }
 };
 
-export const googlesignup : any = async (data: any, retries = MAX_RETRIES) => {
+export const googlesignup: any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const encryptDataa = encryptData(data);
-    const response = await axios.post(`/api/signup`, {__VIR__W: encryptDataa});
+    const response = await axios.post(`/api/signup`, { __VIR__W: encryptDataa });
     const responseData = response?.data;
     return responseData;
   } catch (error) {
@@ -62,7 +62,7 @@ export const googlesignup : any = async (data: any, retries = MAX_RETRIES) => {
 };
 
 
-export const allUsers : any = async (retries = MAX_RETRIES) => {
+export const allUsers: any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/allusers`);
     const responseData = response.data;
@@ -79,7 +79,7 @@ export const allUsers : any = async (retries = MAX_RETRIES) => {
   }
 };
 
-export const getuser : any = async (retries = MAX_RETRIES) => {
+export const getuser: any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/verifyuser`);
     const responseData = response.data;
@@ -96,7 +96,7 @@ export const getuser : any = async (retries = MAX_RETRIES) => {
   }
 };
 
-export const click : any = async (data: any, retries = MAX_RETRIES) => {
+export const click: any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/postclick`, data);
     const responseData = response.data;
@@ -114,7 +114,7 @@ export const click : any = async (data: any, retries = MAX_RETRIES) => {
 };
 
 
-export const allSearchJs : any = async (data: any , retries = MAX_RETRIES) => {
+export const allSearchJs: any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/allsearch`, data);
     const responseData = response.data;
@@ -131,7 +131,7 @@ export const allSearchJs : any = async (data: any , retries = MAX_RETRIES) => {
   }
 };
 
-export const logOut : any = async (retries = MAX_RETRIES) => {
+export const logOut: any = async (retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/logout`);
     const responseData = response.data;
@@ -148,61 +148,40 @@ export const logOut : any = async (retries = MAX_RETRIES) => {
   }
 };
 
+
 export const heroImages: any = async (retries = MAX_RETRIES) => {
-  try {
-    const response = await axios.post(`https://shekhawati-kaa-data.online/api/HeroImg`);
-    const responseData = response.data;
-    return responseData;
-  } catch (error) {
+  const response = await fetch('https://shekhawati-kaa-data.online/api/HeroImg', { cache: "no-store" });
+  if (!response.ok) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
       return heroImages(retries - 1); // Retry the request
     } else {
-      console.error(error);
       return null; // Return null if all retries fail
     }
   }
+  const data = await response.json();
+  return data;
 };
 
-export const recentSearches : any = async (retries = MAX_RETRIES) => {
-  try {
-    const response = await axios.post(`https://shekhawati-kaa-data.online/api/recentlySearchedProfiles`);
-    const responseData = response.data;
-    const decryptedResponse = {...responseData, heroImages: decryptData(responseData.heroImages)  };
-    return decryptedResponse;
-  } catch (error) {
+export const recentSearches: any = async (retries = MAX_RETRIES) => {
+  const response = await fetch('https://shekhawati-kaa-data.online/api/recentlySearchedProfiles', { cache: "no-store" });
+  if (!response.ok) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
       return recentSearches(retries - 1); // Retry the request
     } else {
-      console.error(error);
       return null; // Return null if all retries fail
     }
   }
-};
-
-export const recentSignup : any = async (retries = MAX_RETRIES) => {
-  try {
-    const response = await axios.post(`https://shekhawati-kaa-data.online/api/recentSignup`);
-    const responseData = response.data;
-    const decriptedResponse = {...responseData, data : decryptData(responseData.data)};
-    return decriptedResponse;
-  } catch (error) {
-    if (retries > 0) {
-      console.warn(`Retrying... Attempts left: ${retries}`);
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
-      return recentSignup(retries - 1); // Retry the request
-    } else {
-      console.error(error);
-      return null; // Return null if all retries fail
-    }
-  }
+  const data = await response.json();
+  const decryptedResponse = { ...data, heroImages: decryptData(data.heroImages) };
+  return decryptedResponse;
 };
 
 
-export const sendOTP : any = async (data : any , retries = MAX_RETRIES) => {
+export const sendOTP: any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/mobile/sendotp`, data);
     const responseData = response.data;
@@ -219,7 +198,7 @@ export const sendOTP : any = async (data : any , retries = MAX_RETRIES) => {
   }
 };
 
-export const verifyOTP : any = async (data : any , retries = MAX_RETRIES) => {
+export const verifyOTP: any = async (data: any, retries = MAX_RETRIES) => {
   try {
     const response = await axios.post(`/api/mobile/verifyotp`, data);
     const responseData = response.data;

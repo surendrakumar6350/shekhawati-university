@@ -2,14 +2,17 @@ import type { FetchDataResponse } from '../utils/fetchInitialData';
 import { fetchData } from '../utils/fetchInitialData';
 import HomePage from './NewComponents/Main';
 
+
+
 const page = async () => {
+
   const data = await fetchData();
   if (data) {
-    const { recentSearchess, recentSignupp, heroImg }: FetchDataResponse = data;
+    const { recentSearchess, heroImg }: FetchDataResponse = data;
 
     return (
       <>
-        {<HomePage topProfiles={recentSignupp}
+        {recentSearchess && heroImg && <HomePage
           recentProfiles={recentSearchess} imageUrls={heroImg} />}
       </>
     )
