@@ -150,7 +150,7 @@ export const logOut: any = async (retries = MAX_RETRIES) => {
 
 
 export const heroImages: any = async (retries = MAX_RETRIES) => {
-  const response = await fetch('https://82e2-42-105-237-137.ngrok-free.app/api/HeroImg', { cache: "no-store" });
+  const response = await fetch('https://shekhawati-kaa-data.online/api/HeroImg', { cache: "no-store" });
   if (!response.ok) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);
@@ -165,7 +165,7 @@ export const heroImages: any = async (retries = MAX_RETRIES) => {
 };
 
 export const recentSearches: any = async (retries = MAX_RETRIES) => {
-  const response = await fetch('https://82e2-42-105-237-137.ngrok-free.app/api/recentlySearchedProfiles', { cache: "no-store" });
+  const response = await fetch('https://shekhawati-kaa-data.online/api/recentlySearchedProfiles', { cache: "no-store" });
   if (!response.ok) {
     if (retries > 0) {
       console.warn(`Retrying... Attempts left: ${retries}`);
