@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -38,8 +38,8 @@ export default function Page() {
 
   return (
 
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-200 py-12 lg:py-24 overflow-hidden relative">
-      <div className="w-full h-full px-6">
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-200 py-6 sm:py-12 lg:py-24 px-4 sm:px-6 overflow-hidden relative">
+      <div className="w-full h-full">
         <motion.div
           className="mx-auto flex w-full flex-col justify-center items-center space-y-6 sm:w-[350px]"
           initial={{ opacity: 0, y: 50 }}
@@ -48,7 +48,7 @@ export default function Page() {
         >
           <div className="flex flex-col space-y-2 text-center">
             <motion.h1
-              className="text-3xl font-bold tracking-tight text-gray-900"
+              className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -67,7 +67,7 @@ export default function Page() {
             </motion.p>
           </div>
           <motion.div
-            className="grid gap-6"
+            className="grid gap-6 w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -142,7 +142,7 @@ export default function Page() {
                     <RadioGroup
                       value={selectedAvatar}
                       onValueChange={setSelectedAvatar}
-                      className="flex justify-between"
+                      className="flex flex-wrap justify-center gap-4"
                     >
                       {avatarOptions.map((avatar, index) => (
                         <div key={index} className="flex flex-col items-center">
@@ -155,7 +155,7 @@ export default function Page() {
                             htmlFor={`avatar-${index}`}
                             className="cursor-pointer"
                           >
-                            <Avatar className={`w-16 h-16 border-2 transition-all ${selectedAvatar === avatar ? 'border-indigo-600' : 'border-transparent'
+                            <Avatar className={`w-12 h-12 sm:w-16 sm:h-16 border-2 transition-all ${selectedAvatar === avatar ? 'border-indigo-600' : 'border-transparent'
                               }`}>
                               <AvatarImage src={avatar} alt={`Avatar option ${index + 1}`} />
                               <AvatarFallback>Avatar {index + 1}</AvatarFallback>
@@ -181,21 +181,22 @@ export default function Page() {
                     <span className="bg-transparent px-2 text-gray-500">Or continue with</span>
                   </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   <GoogleLogin
-                    width="380"
+                    width="100%"
                     size="large"
                     text="continue_with"
                     onSuccess={success}
                     onError={() => {
                       console.log("Login Failed");
                     }}
-                  /> </div>
+                  />
+                </div>
               </>
             )}
           </motion.div>
           <motion.p
-            className="px-8 text-center text-sm text-gray-600"
+            className="px-4 sm:px-8 text-center text-xs sm:text-sm text-gray-600"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
