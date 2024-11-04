@@ -18,6 +18,7 @@ import calculateTheValueOfPage from "@/utils/calculateTheValueOfPage";
 import areAllQueryParamsNull from "@/utils/isParams";
 import { motion } from 'framer-motion'
 import Footer from './Footer'
+import { message } from "react-message-popup";
 
 
 
@@ -61,37 +62,34 @@ export default function SearchPage() {
                 address: address,
             }).every(value => value === null)) {
                 window.scrollBy({ top: 200, behavior: "smooth" });
-            }
 
-            //Finding Search Result's
-            const searchResponse = await getStudents(
-                {
-                    name: nameValue,
-                    fatherName: fatherNameValue,
-                    course: courseValue,
-                    mobile: mobile,
-                    address: address,
-                },
-                page
-            );
-            if (searchResponse?.success) {
-                dispatch(changeSearch(searchResponse?.user));
-                if (searchResponse?.user.length < 1) {
-                    //@ts-ignore
-                    message.error('No Data Found!!!', 4000);
+                //Finding Search Result's
+                const searchResponse = await getStudents(
+                    {
+                        name: nameValue,
+                        fatherName: fatherNameValue,
+                        course: courseValue,
+                        mobile: mobile,
+                        address: address,
+                    },
+                    page
+                );
+
+                if (!searchResponse) {
+                    return setLimit(true);
+                }
+
+                if (searchResponse.success) {
+                    dispatch(changeSearch(searchResponse.user));
+                    if (searchResponse.user.length < 1) {
+                        message.error('No Data Found!!!', 4000);
+                        setLimit(true);
+                    }
+                }
+
+                if (!searchResponse.success) {
                     setLimit(true);
-                }
-            }
-
-            if (!searchResponse?.success) {
-                setLimit(true);
-                if (searchResponse.message == "Rate limit exceeded") {
-                    //@ts-ignore
-                    message?.error("Rate limit exceeded! You've reached your daily limit. Try again tomorrow!", 9000);
-                }
-                if (searchResponse.message == "login first") {
-                    //@ts-ignore
-                    message?.error('Please Log in..', 6000);
+                    message.error(searchResponse.message.errors, 9000);
                 }
             }
         })();
