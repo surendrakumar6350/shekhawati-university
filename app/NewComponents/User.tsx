@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { SyntheticEvent, useState } from "react";
 import { ChevronDown, ChevronUp, Search } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -86,9 +86,9 @@ const User = (props: any) => {
                             alt=""
                             className="w-12 h-12 object-cover rounded-full"
                             onError={(e) => {
-                              //@ts-ignore
-                              e.target.src = "/placeholder.svg"; // or any other fallback image
-                            }}
+                              const target = e.target as HTMLImageElement; // Type assertion
+                              target.src = "/placeholder.svg"; // or any other fallback image
+                          }}
                           />
                           <div className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full p-1">
                             <Search className="w-3 h-3" />
