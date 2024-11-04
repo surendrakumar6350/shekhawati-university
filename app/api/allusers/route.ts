@@ -2,12 +2,12 @@ import { connectDb } from "@/dbconnection/connect";
 import { NextResponse } from "next/server";
 import { signup } from "@/dbconnection/Schemas/signup";
 import { click } from "@/dbconnection/Schemas/click";
+import type { NextRequest } from 'next/server'
 
-export async function POST(request: Request): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     connectDb();
-    //@ts-ignore
-    const usercookie = await request?.cookies?.get("user");
+    const usercookie = await request.cookies.get("user");
     const userid = usercookie?.value;
 
     if (!userid) {
