@@ -1,11 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 
-// Define the log file path
-const logFilePath = path.join(__dirname, '../Logs/server.log');
+const logFilePath = path.join(__dirname, '../../Logs/server.log');
+
+// Function to ensure the log file and directories exist
+function ensureLogFileExists(filePath) {
+    const dir = path.dirname(filePath);
+
+    // Check if the directory exists; if not, create it
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+
+    // Check if the file exists; if not, create an empty file
+    if (!fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, '');
+    }
+}
 
 // Function to log messages
 function logMessage(message) {
+    ensureLogFileExists(logFilePath);
+    
     const timestamp = new Date().toISOString(); // Get the current timestamp
     const logEntry = `${timestamp} - ${message}\n`; // Format the log entry
 
