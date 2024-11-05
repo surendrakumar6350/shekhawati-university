@@ -37,3 +37,8 @@ jobs:
       - name: Set up environment file
         run: |
           cp ../../../../bot-env.txt services/bot/.env
+
+      - name: Restart API with PM2
+        run: |
+          cd services/bot
+          npx pm2 restart api

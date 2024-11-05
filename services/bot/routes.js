@@ -74,7 +74,7 @@ router.post('/new-otp', async (req, res) => {
 
 
 
-// Export the router
+
 module.exports = (whatsappClient) => {
     client = whatsappClient; // Assign the client instance to the local variable
     return router;
