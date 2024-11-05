@@ -10,6 +10,9 @@ const { generateRandomOTP, isValidMobileNumber } = require('./utils/createOtp')
 
 let client; // You will need to pass the client instance to this file
 
+router.post('/ping', async (req, res) => {
+    res.send("pong");
+});
 
 router.post('/send-message', async (req, res) => {
     const data = await req.body;
