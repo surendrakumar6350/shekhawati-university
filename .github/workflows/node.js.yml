@@ -36,4 +36,4 @@ jobs:
       # Copy env.txt from the root level to services/bot/.env
       - name: Set up environment file
         run: |
-          cp ../../../../env.txt services/bot/.env
+          cp ../../../../bot-env.txt services/bot/.env
