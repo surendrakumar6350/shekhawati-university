@@ -41,7 +41,11 @@ To run this project, you will need to add the following environment variables to
 `SEND_OTP_BOT_API`="`http://localhost:4000/api/new-otp`"\
 `SIGNUP_KEY`="`Y2hlbm1vcmUgY89429tcGxldf4gsejUY`"\
 `DB`="`mongodb+srv://user-name:password@mongodb.net/PG_FORMS`"\
-`REDIS_URI`="`redis://default:password@ip:17957`"\
+`REDIS_URI`="`redis://default:password@ip:17957`"
+
+
+
+
 
 
 ## Starting the WhatsApp Bot
@@ -73,7 +77,7 @@ Create an .env file in the services/bot directory (or where the bot is located) 
 `DB_URI`="`mongodb+srv://user-name:password@mongodb.net/Whatsappdevelopment`"\
 `DB`="`mongodb+srv://user-name:password@mongodb.net/PG_FORMS`"\
 `CLIENT_ID`="`Development`"\
-`SIGNUP_KEY`="`Y2hlbm1vcmUgY89429tcGxldf4gsejUY`"\
+`SIGNUP_KEY`="`Y2hlbm1vcmUgY89429tcGxldf4gsejUY`"
 
 
 
