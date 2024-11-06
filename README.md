@@ -1,11 +1,13 @@
 
-# Project Title
+# Shekhawati Hub Next.js Project
 Easily find college students near you by using our convenient search tool to connect with individuals in your area based on location, pincode, and more.
 
 
 ## Run Locally
 
-Clone the project
+1. Clone the repository.
+2. Navigate to the project folder.
+3. Install the required dependencies:
 
 ```bash
   git clone https://github.com/surendrakumar6350/shekhawati-university.git
@@ -14,7 +16,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd shekhawati-university
 ```
 
 Install dependencies
@@ -33,8 +35,46 @@ Start the server
 ## Environment Variables
 To run this project, you will need to add the following environment variables to your .env file
 
-`DB`="`mongodb URI`"\
-`CLIENT_ID`="`google login api CLIENT_ID`"
+
+`ADMIN_EMAIL`="`your-email@email.com`"\
+`WHATSAPP_BOT_API`="`http://localhost:4000/api/send-message`"\
+`SEND_OTP_BOT_API`="`http://localhost:4000/api/new-otp`"\
+`SIGNUP_KEY`="`Y2hlbm1vcmUgY89429tcGxldf4gsejUY`"\
+`DB`="`mongodb+srv://user-name:password@mongodb.net/PG_FORMS`"\
+`REDIS_URI`="`redis://default:password@ip:17957`"\
+
+
+## Starting the WhatsApp Bot
+The WhatsApp bot service must be running for the website’s OTP functionality to work. To start the bot:
+
+```bash
+  cd services/bot
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  node index.js
+```
+
+When you start the bot, it will prompt you to scan a QR code. Scan the QR code with WhatsApp to connect the bot.
+
+
+## Environment Variables
+Create an .env file in the services/bot directory (or where the bot is located) with the following variables:
+
+`PORT`="`4000`"\
+`DB_URI`="`mongodb+srv://user-name:password@mongodb.net/Whatsappdevelopment`"\
+`DB`="`mongodb+srv://user-name:password@mongodb.net/PG_FORMS`"\
+`CLIENT_ID`="`Development`"\
+`SIGNUP_KEY`="`Y2hlbm1vcmUgY89429tcGxldf4gsejUY`"\
+
 
 
 ## Tech Stack
