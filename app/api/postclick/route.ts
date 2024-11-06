@@ -6,6 +6,7 @@ import { headers } from 'next/headers';
 import rateLimit from "../../../rateLimit";
 import { UAParser } from 'ua-parser-js';
 import { sendMessage } from "@/utils/functions";
+import { redisClient, connectRedis, closeRedisClient } from "@/redisClient";
 import type { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       let obj = { search: data, user: res, ip: ip, device: parserResults }
       const ress = new click(obj);
       const savedclick = await ress.save();
-      await sendMessage(savedclick);
+      await sendMessage(savedclick, redisClient, connectRedis, closeRedisClient);
       return NextResponse.json({ success: true });
     }
   } catch (error) {

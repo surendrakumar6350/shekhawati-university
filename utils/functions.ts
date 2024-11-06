@@ -1,12 +1,11 @@
 import { QueryValues } from "@/app/types/homepage";
-import { redisClient, connectRedis, closeRedisClient } from "@/redisClient";
 import axios from "axios";
 
 const redirectToFind = () => {
   window.location.href = "/find"
 }
 
-async function sendMessage(data: any) {
+async function sendMessage(data: any,  redisClient : any, connectRedis : any, closeRedisClient : any) {
   try {
     await connectRedis();
     const isFirstMessage = await redisClient.get(`SEND-${data.search.mobile}`);
