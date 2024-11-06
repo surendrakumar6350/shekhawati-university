@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const logFilePath = path.join(__dirname, '../../Logs/server.log');
+const logFilePath = path.join(__dirname, '../../../../../../Logs/server.log');
 
 // Function to ensure the log file and directories exist
 function ensureLogFileExists(filePath) {

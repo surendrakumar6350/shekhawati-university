@@ -1,8 +1,7 @@
 // clientEvents.js
 const qrcode = require("qrcode-terminal");
 const { MessageMedia } = require("whatsapp-web.js");
-const fs = require('fs');
-const { paymentMessage, profileMessage } = require('./utils/paymentMessage');
+const { profileMessage } = require('./utils/paymentMessage');
 const { blogposts } = require('./db/db');
 const { convertString } = require('./utils/functions');
 const { fetchImageAsBase64 } = require('./utils/fetchImg');
@@ -26,20 +25,6 @@ module.exports = (client) => {
 
 
     client.on('message', async (msg) => {
-
-        // if (msg.body === '2') {
-        //     const fileData = fs.readFileSync('./utils/upi.png', {
-        //         encoding: 'base64',
-        //     })
-        //     media = new MessageMedia(
-        //         "image/png",
-        //         fileData,
-        //         "upi.png",
-        //     )
-        //     await client.sendMessage(msg.from, media);
-        //     await client.sendMessage(msg.from, paymentMessage);
-        //     logMessage(`${msg.from} requested UPI QR`)
-        // }
 
         if (msg.body === '1') {
             const profile = await blogposts.findOne({ mobile: convertString(msg.from) });

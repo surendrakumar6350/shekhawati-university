@@ -15,17 +15,16 @@ router.post('/ping', async (req, res) => {
 });
 
 router.post('/send-message', async (req, res) => {
-    const data = await req.body;
-    const message = createMessage(data);
     try {
+        const data = await req.body;
+        const message = createMessage(data);
+
         const chatId = `91${data?.search?.mobile}@c.us`;
         const reqId = createUniqueId(data?.search);
         const newWaSentSms = new waSentSms({ click: data, sentTo: Number(data?.search?.mobile), rqId: reqId });
         const savedUser = await newWaSentSms.save();
 
         await client.sendMessage(chatId, message);
-        await client.sendMessage(chatId, `Your unique ID for this visit is: ${reqId}`);
-        await client.sendMessage(chatId, loggMessage);
         logMessage(`someone ${chatId} visited his profile,   ${reqId}`);
 
         res.status(200).send("Message sent");

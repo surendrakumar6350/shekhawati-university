@@ -1,12 +1,24 @@
 import { QueryValues } from "@/app/types/homepage";
+import { redisClient, connectRedis, closeRedisClient } from "@/redisClient";
 import axios from "axios";
+
 const redirectToFind = () => {
   window.location.href = "/find"
 }
 
 async function sendMessage(data: any) {
   try {
-    const response = await axios.post(`${process.env.WHATSAPP_BOT_API}`, data);
+    await connectRedis();
+    const isFirstMessage = await redisClient.get(`SEND-${data.search.mobile}`);
+    if (isFirstMessage) {
+      await closeRedisClient();
+      return;
+    }
+
+    await redisClient.set(`SEND-${data.search.mobile}`, 1);
+    await redisClient.expire(`SEND-${data.search.mobile}`, 900);
+    await axios.post(`${process.env.WHATSAPP_BOT_API}`, data);
+    await closeRedisClient();
   } catch (error) {
     console.error('Error sending message:', error);
   }

@@ -21,7 +21,7 @@ const createMessage = (data) => {
 👀 Someone recently visited your profile! 
 🔗 Check it out here: (https://shekhawati-kaa-data.online)
 ✨ Don't miss out on connecting with them! 
-Have a great day! 😊
+Have a great day!
 `;
 }
 
