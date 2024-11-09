@@ -1,6 +1,6 @@
-import { UserRequest } from "./dbconnection/Schemas/UserRequest";
+import { UserRequest } from "@/dbconnection/Schemas/UserRequest";
 
-async function rateLimit(userId) {
+async function rateLimit(userId : any) {
   let userRequest = await UserRequest.findOne({ userId });
   if (!userRequest) {
     userRequest = new UserRequest({ userId });

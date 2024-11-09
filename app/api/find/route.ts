@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { signup } from "@/dbconnection/Schemas/signup";
 import { UAParser } from "ua-parser-js";
 import { click } from "@/dbconnection/Schemas/click";
-import rateLimit from "../../../rateLimit";
+import rateLimit from "@/config/rateLimit";
 import { encryptData } from "@/utils/encrypt";
 import { searchLogic } from "@/utils/functions";
 import type { NextRequest } from 'next/server';
