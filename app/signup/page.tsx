@@ -1,6 +1,5 @@
 'use client'
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,6 +12,8 @@ import { avatarOptions } from '@/utils/mobileSignUtils'
 import { onSubmitPhone, onSubmitOtp, onSubmitProfile } from '@/utils/mobileSignUtils'
 import { GoogleLogin } from "@react-oauth/google";
 import { googlesignup } from '@/apiCalls/allApiCalls'
+import { Sun, Moon } from "lucide-react"
+import Cookies from 'js-cookie';
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -21,6 +22,28 @@ export default function Page() {
   const [name, setName] = useState('')
   const [selectedAvatar, setSelectedAvatar] = useState('/avatar1.png')
   const [step, setStep] = useState(1)
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+
+  useEffect(() => {
+    const savedTheme = Cookies.get('theme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+      document.body.classList.toggle('dark', savedTheme === 'dark');
+    } else {
+      setIsDarkMode(false);
+      document.body.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    Cookies.set('theme', newTheme ? 'dark' : 'light', { expires: 7 });
+    document.body.classList.toggle('dark', newTheme);
+    window.location.reload();
+  };
+
 
   const success = async (credentialResponse: any) => {
     message.loading('working...', 24000).then(async ({ destory }: any) => {
@@ -38,7 +61,7 @@ export default function Page() {
 
   return (
 
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-200 py-6 sm:py-12 lg:py-24 px-4 sm:px-6 overflow-hidden relative">
+    <div className={`min-h-screen w-full py-6 sm:py-12 lg:py-24 px-4 sm:px-6 overflow-hidden relative transition-all ${isDarkMode ? 'bg-gradient-to-br from-gray-800 via-gray-900 to-black text-white' : 'bg-gradient-to-br from-blue-50 via-blue-100 to-indigo-200 text-gray-900'}`}>
       <div className="w-full h-full">
         <motion.div
           className="mx-auto flex w-full flex-col justify-center items-center space-y-6 sm:w-[350px]"
@@ -48,7 +71,7 @@ export default function Page() {
         >
           <div className="flex flex-col space-y-2 text-center">
             <motion.h1
-              className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900"
+              className="text-2xl sm:text-3xl font-bold tracking-tight"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
@@ -56,7 +79,7 @@ export default function Page() {
               Create an Account
             </motion.h1>
             <motion.p
-              className="text-sm text-gray-600"
+              className={`text-sm transition-colors ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
@@ -76,7 +99,7 @@ export default function Page() {
               <form onSubmit={(e) => onSubmitPhone(e, phoneNumber, message, setIsLoading, sendOTP, setStep)}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
-                    <Label className="text-gray-700" htmlFor="phone">
+                    <Label className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`} htmlFor="phone">
                       Phone Number
                     </Label>
                     <Input
@@ -89,10 +112,10 @@ export default function Page() {
                       disabled={isLoading}
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
-                      className="bg-white/50 border-gray-200"
+                      className={`bg-transparent border focus:ring-2 ${isDarkMode ? 'border-gray-600 focus:ring-indigo-400 text-white' : 'border-gray-200 focus:ring-indigo-500 text-gray-900'}`}
                     />
                   </div>
-                  <Button disabled={isLoading} className="bg-indigo-600 text-white hover:bg-indigo-700">
+                  <Button disabled={isLoading} className={`hover:bg-indigo-700 ${isDarkMode ? 'bg-indigo-500 text-white' : 'bg-indigo-600 text-white'}`}>
                     Send OTP
                   </Button>
                 </div>
@@ -109,10 +132,10 @@ export default function Page() {
                       disabled={isLoading}
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
-                      className="bg-white/50 border-gray-200"
+                      className={`bg-transparent border focus:ring-2 ${isDarkMode ? 'border-gray-600 focus:ring-indigo-400 text-white' : 'border-gray-200 focus:ring-indigo-500 text-gray-900'}`}
                     />
                   </div>
-                  <Button disabled={isLoading} className="bg-indigo-600 text-white hover:bg-indigo-700">
+                  <Button disabled={isLoading} className={`hover:bg-indigo-700 ${isDarkMode ? 'bg-indigo-500 text-white' : 'bg-indigo-600 text-white'}`}>
                     Verify OTP
                   </Button>
                 </div>
@@ -122,7 +145,7 @@ export default function Page() {
               <form onSubmit={(e) => onSubmitProfile(e, name, setStep, message)}>
                 <div className="grid gap-4">
                   <div className="grid gap-2">
-                    <Label className="text-gray-700" htmlFor="name">
+                    <Label className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`} htmlFor="name">
                       Name
                     </Label>
                     <Input
@@ -132,11 +155,11 @@ export default function Page() {
                       disabled={isLoading}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="bg-white/50 border-gray-200"
+                      className={`bg-transparent border focus:ring-2 ${isDarkMode ? 'border-gray-600 focus:ring-indigo-400 text-white' : 'border-gray-200 focus:ring-indigo-500 text-gray-900'}`}
                     />
                   </div>
                   <div className="grid gap-2">
-                    <Label className="text-gray-700">
+                    <Label className={`${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
                       Choose an Avatar
                     </Label>
                     <RadioGroup
@@ -165,7 +188,7 @@ export default function Page() {
                       ))}
                     </RadioGroup>
                   </div>
-                  <Button disabled={isLoading} className="bg-indigo-600 text-white hover:bg-indigo-700">
+                  <Button disabled={isLoading} className={`hover:bg-indigo-700 ${isDarkMode ? 'bg-indigo-500 text-white' : 'bg-indigo-600 text-white'}`}>
                     Create Profile
                   </Button>
                 </div>
@@ -175,10 +198,10 @@ export default function Page() {
               <>
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t border-gray-300" />
+                    <span className="w-full border-t border-gray-300 dark:border-gray-600"></span>
                   </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-transparent px-2 text-gray-500">Or continue with</span>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white dark:bg-black">OR</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center">
@@ -195,24 +218,17 @@ export default function Page() {
               </>
             )}
           </motion.div>
-          <motion.p
-            className="px-4 sm:px-8 text-center text-xs sm:text-sm text-gray-600"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-          >
-            By clicking continue, you agree to our{' '}
-            <Link href="" className="underline underline-offset-4 hover:text-gray-900">
-              Terms of Service
-            </Link>{' '}
-            and{' '}
-            <Link href="" className="underline underline-offset-4 hover:text-gray-900">
-              Privacy Policy
-            </Link>
-            .
-          </motion.p>
         </motion.div>
       </div>
+      <motion.button
+        className={`fixed bottom-4 right-4 p-3 rounded-full shadow-lg ${isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'}`}
+        onClick={toggleTheme}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
+      </motion.button>
     </div>
+
   )
 }

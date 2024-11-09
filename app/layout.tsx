@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Head from "./NewComponents/Head";
+import { ThemeScript } from './theme-script'
 
 const fontHeading = Inter({
   subsets: ["latin"],
@@ -29,21 +30,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Providers>
-      <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
         <Head />
-        <GoogleOAuthProvider clientId={`${process.env.CLIENT_ID}`}>
-          <body
-            className={cn(
-              "antialiased",
-              fontHeading.variable,
-              fontBody.variable
-            )}
-          >
+      </head>
+      <body
+        className={cn(
+          "antialiased",
+          fontHeading.variable,
+          fontBody.variable
+        )}
+      >
+        <Providers>
+          <GoogleOAuthProvider clientId={`${process.env.CLIENT_ID}`}>
             {children}
-          </body>
-        </GoogleOAuthProvider>
-      </html>
-    </Providers>
+          </GoogleOAuthProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }
