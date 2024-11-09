@@ -3,10 +3,10 @@ import { NextResponse } from "next/server";
 import { click } from "@/dbconnection/Schemas/click";
 import { signup } from "@/dbconnection/Schemas/signup";
 import { headers } from 'next/headers';
-import rateLimit from "../../../rateLimit";
+import rateLimit from "@/config/rateLimit";
 import { UAParser } from 'ua-parser-js';
 import { sendMessage } from "@/utils/functions";
-import { redisClient, connectRedis, closeRedisClient } from "@/redisClient";
+import { redisClient, connectRedis, closeRedisClient } from "@/config/redisClient";
 import type { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {

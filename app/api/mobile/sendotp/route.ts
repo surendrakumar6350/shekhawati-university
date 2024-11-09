@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { redisClient, connectRedis, closeRedisClient } from "@/redisClient";
+import { redisClient, connectRedis, closeRedisClient } from "@/config/redisClient";
 import { headers } from "next/headers";
 import isIpLimitExceeded from "@/utils/isIpLimitExceeded";
 import isMobileLimitExceeded from "@/utils/isMobileLimitExceeded";

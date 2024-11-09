@@ -228,6 +228,14 @@ export default function Page() {
       >
         {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
       </motion.button>
+
+      {/* Prefetching Avatar Images */}
+      <div className='hidden'>{avatarOptions.map((avatar, index) => (
+        <Avatar >
+          <AvatarImage src={avatar} alt={`Avatar option`} />
+        </Avatar>
+      ))}</div>
+
     </div>
 
   )

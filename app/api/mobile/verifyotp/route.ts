@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { redisClient, connectRedis, closeRedisClient } from "@/redisClient";
+import { redisClient, connectRedis, closeRedisClient } from "@/config/redisClient";
 import { signup } from "@/dbconnection/Schemas/signup";
 import { connectDb } from "@/dbconnection/connect";
 
