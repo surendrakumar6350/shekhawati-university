@@ -14,9 +14,9 @@ import { setAllUsersdetails } from "@/app/redux/allUser";
 export default function Component() {
   const dispatch = useDispatch();
   const [progress, setProgress] = useState(0);
-  const user = useSelector((data : any) => data?.userSlice?.data);
-  const updateuser = useSelector((data : any) => data?.Slice?.data);
-  const users = useSelector((data : any) => data?.AlluserSlice?.data);
+  const user = useSelector((data: any) => data?.userSlice?.data);
+  const updateuser = useSelector((data: any) => data?.Slice?.data);
+  const users = useSelector((data: any) => data?.AlluserSlice?.data);
 
   useEffect(() => {
     (async () => {
@@ -35,7 +35,7 @@ export default function Component() {
   useEffect(() => {
     (async () => {
       const ans = await allUsers();
-      if(ans) {
+      if (ans) {
         dispatch(setAllUsersdetails(ans));
       } else {
         alert("please Login As Admin");
@@ -50,18 +50,25 @@ export default function Component() {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
-      <div className="min-h-screen bg-gray-100 p-2 md:p-8">
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-2 md:p-8">
         <div className="max-w-4xl mx-auto">
-          <Card>
+          <Card className="bg-white dark:bg-gray-800">
             <CardHeader>
-              <CardTitle>Recent Profile Searches</CardTitle>
+              <CardTitle className="text-gray-900 dark:text-white">Recent Profile Searches</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                 {users?.length > 0 ? <> {users?.map((user: any) => (
-                  <User user={user} />
-                ))}</> : <div className="w-full flex justify-center items-center"> <img src="/loading.gif" className="w-10 m-10 h-10 rounded" /> </div>
-                }
+                {users?.length > 0 ? (
+                  <>
+                    {users?.map((user: any) => (
+                      <User user={user} key={user.id} />
+                    ))}
+                  </>
+                ) : (
+                  <div className="w-full flex justify-center items-center">
+                    <img src="/loading.gif" className="w-10 m-10 h-10 rounded" />
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>

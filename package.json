@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
     "framer-motion": "^11.11.1",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.447.0",
     "mongoose": "^8.7.0",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

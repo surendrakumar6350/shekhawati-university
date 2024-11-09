@@ -23,3 +23,20 @@
     --radius: 0.5rem;
   }
 }
+
+
+.dark {
+  @apply bg-gray-900 text-white;
+}
+
+.dark .bg-white {
+  @apply bg-gray-800;
+}
+
+.dark .text-gray-600 {
+  @apply text-gray-300;
+}
+
+.dark .text-purple-800 {
+  @apply text-purple-300;
+}
