@@ -214,3 +214,22 @@ export const verifyOTP: any = async (data: any, retries = MAX_RETRIES) => {
     }
   }
 };
+
+
+
+export const addIp: any = async (data: any, retries = MAX_RETRIES) => {
+  try {
+    const response = await axios.post(`/api/verifyip/add-ip`, data);
+    const responseData = response.data;
+    return responseData;
+  } catch (error) {
+    if (retries > 0) {
+      console.warn(`Retrying... Attempts left: ${retries}`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+      return addIp(data, retries - 1); // Retry the request
+    } else {
+      console.error(error);
+      return null; // Return null if all retries fail
+    }
+  }
+};
