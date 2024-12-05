@@ -41,7 +41,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       let obj = { search: data, user: res, ip: ip, device: parserResults }
       const ress = new click(obj);
       const savedclick = await ress.save();
-      await sendMessage(savedclick, redisClient, connectRedis, closeRedisClient);
+      // await sendMessage(savedclick, redisClient, connectRedis, closeRedisClient);
       return NextResponse.json({ success: true });
     }
   } catch (error) {
