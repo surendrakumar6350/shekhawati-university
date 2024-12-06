@@ -303,6 +303,9 @@ export default function SearchPage() {
                       width={300}
                       height={300}
                       className="w-full h-auto object-cover aspect-square"
+                      onError={(e) => {
+                        e.currentTarget.src = "/fallback.jpeg";
+                      }}
                     />
                   </div>
                   <CardContent className="p-4 flex flex-col items-center justify-center">
