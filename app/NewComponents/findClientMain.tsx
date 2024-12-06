@@ -297,7 +297,7 @@ export default function SearchPage() {
                       src={
                         profile.imgSrc == "/placeholder.svg"
                           ? "/placeholder.svg"
-                          : `https://exam.shekhauniexam.in/${profile.imgSrc}`
+                          : `https://shekhawati-kaa-data.online/api/getimage?imgSrc=${profile.imgSrc}`
                       }
                       alt={profile.studentName}
                       width={300}

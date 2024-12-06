@@ -31,7 +31,7 @@ const Popup = (props) => {
                                 </button>
                                 <div className="flex items-center space-x-3">
                                     <Avatar className="w-16 h-16 border-2 border-white">
-                                        <AvatarImage src={selectedProfile.imgSrc == "/placeholder.svg" ? "/placeholder.svg" : `https://exam.shekhauniexam.in/${selectedProfile.imgSrc}`} alt={selectedProfile.studentName} />
+                                        <AvatarImage src={selectedProfile.imgSrc == "/placeholder.svg" ? "/placeholder.svg" : `https://shekhawati-kaa-data.online/api/getimage?imgSrc=${selectedProfile.imgSrc}`} alt={selectedProfile.studentName} />
                                     </Avatar>
                                     <div>
                                         <h2 className="text-xl font-bold">{selectedProfile.studentName}</h2>

@@ -81,13 +81,13 @@ const User = (props: any) => {
                             src={
                               post.search?.imgSrc == "/placeholder.svg"
                                 ? "/placeholder.svg"
-                                : `https://exam.shekhauniexam.in/${post.search?.imgSrc}`
+                                : `https://shekhawati-kaa-data.online/api/getimage?imgSrc=${post.search?.imgSrc}`
                             }
                             alt=""
                             className="w-12 h-12 object-cover rounded-full"
                             onError={(e) => {
-                              const target = e.target as HTMLImageElement; // Type assertion
-                              target.src = "/placeholder.svg"; // or any other fallback image
+                              const target = e.target as HTMLImageElement;
+                              target.src = "/placeholder.svg";
                           }}
                           />
                           <div className="absolute -top-1 -right-1 bg-primary text-primary-foreground rounded-full p-1">

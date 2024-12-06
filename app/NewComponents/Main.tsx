@@ -233,7 +233,7 @@ export default function HomePage(props: HomePageProps) {
                     <CardContent className="p-6">
                       <div className="flex items-center space-x-4 mb-4">
                         <Avatar className="h-16 w-16 border-4 border-purple-300 dark:border-purple-600">
-                          <AvatarImage src={`https://exam.shekhauniexam.in/${profile.search.imgSrc}`} alt={profile.search.studentName} />
+                          <AvatarImage src={`https://shekhawati-kaa-data.online/api/getimage?imgSrc=${profile.search.imgSrc}`} alt={profile.search.studentName} />
                           <AvatarFallback>{profile.search.studentName.split(' ').map((n: string) => n[0]).join('')}</AvatarFallback>
                         </Avatar>
                         <div>
